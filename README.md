@@ -1,2 +1,4 @@
 # -ubongoTime
-La wea de complejidad
+ Pinillos Zenteno, Sebastian
+Pizarro Llanos, Cesar
+Salgado Sanchez, Juanelv
