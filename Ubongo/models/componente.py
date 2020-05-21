@@ -5,4 +5,5 @@ class Componente(object):
         self.width = width
         self.height = height
 
-    
+
+

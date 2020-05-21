@@ -1,23 +1,41 @@
-import pygame, time
-
+import pygame
+from models.menu import Menu
 mesa = pygame.image.load('assets/Fondos/fondo mesa.png')
-menu = pygame.image.load('assets/Fondos/fondoUbongo.jpg')
-
 pygame.init()
 window = pygame.display.set_mode((1600, 900))
 
 pygame.display.set_caption("Prueba")
 run = True
+menu = Menu(window)
+
+def dibujarPantallaInicio(window):
+    window.blit(mesa, (0, 0))
+    menu.dibujarMenu()
+
+
+dibujarPantallaInicio(window)
+
 while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+            pygame.quit()
+            quit()
 
-    pygame.time.delay(100)
-    pygame.draw.circle(window, (255, 0, 0), (80, 80), 14)
-    window.blit(mesa, (0, 0))
-    window.blit(menu, (184, 100))
+    dibujarPantallaInicio(window)
     pygame.display.update()
 
 
-pygame.quit()  
+
+
+
+
+
+
+
+
+
+
+
+
+
