@@ -1,5 +1,7 @@
-from models import componente
+import pygame
+from models.componente import Componente
 
+"""
 fh = open("../assets/Piezas/Piezas.txt")
 # x = []
 # i = 0
@@ -30,13 +32,27 @@ for line in fh.readlines():
         break
 
 print(x)
+"""
+
+class Pieza(Componente):
 
 
-# class Pieza(componente):
-#     def __init__(self, x, y, width, height, forma, tipoPieza):
-#
-#         componente.__init__(self, x, y, width, height)
-#         self.forma = forma
-#         self.tipoPieza = tipoPieza
+    def __init__(self, x, y, idPieza, window):
+
+        self.x, self.y = x, y
+        self.window = window
+        self.piezaImg = pygame.image.load('ubongo/assets/Piezas/Pieza '+ str(idPieza) + '.png')
+        self.width = self.piezaImg.get_rect().width
+        self.height = self.piezaImg.get_rect().height
+        Componente.__init__(self, x, y, self.width, self.height)
+        #factory para obtener forma
+        self.forma = 0
+        self.idPieza = idPieza
+
+    
+    def dibujarPieza(self):
+        self.window.blit(self.piezaImg, (self.x, self.y) )
+
+
 
     
