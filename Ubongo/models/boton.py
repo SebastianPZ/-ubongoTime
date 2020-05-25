@@ -8,9 +8,9 @@ class Boton(Componente):
         self.colorBoton = colorBoton
         self.colorTexto = colorTexto
         self.text = text
+        self.clickeado = False
 
     def draw(self, window):
-
 
         pygame.draw.rect(window, self.colorBoton, (self.x, self.y, self.width, self.height))
 
@@ -23,5 +23,7 @@ class Boton(Componente):
         if pos[0] > self.x and pos[0] < self.x + self.width:
             if pos[1] > self.y and pos[1] < self.y + self.height:
                 return True
-
         return False
+
+    def setClickeado(self, estado):
+        self.clickeado = estado

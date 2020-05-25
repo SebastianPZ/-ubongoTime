@@ -15,6 +15,8 @@ fh = open("../assets/Piezas/Piezas.txt")
 x = []
 piezas = ['P0', 'P1', 'P2']
 
+class Pieza(componente):
+    def __init__(self, x, y, width, height, forma, tipoPieza):
 
 
 c = 0
