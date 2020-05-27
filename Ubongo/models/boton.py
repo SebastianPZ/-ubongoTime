@@ -8,7 +8,7 @@ class Boton(Componente):
         self.colorBoton = colorBoton
         self.colorTexto = colorTexto
         self.text = text
-        self.clickeado = False
+
 
     def draw(self, window):
 
@@ -25,5 +25,10 @@ class Boton(Componente):
                 return True
         return False
 
-    def setClickeado(self, estado):
-        self.clickeado = estado
+    def hover(self, colorBoton, colorTexto):
+        self.colorBoton = colorBoton
+        self.colorTexto = colorTexto
+
+    def setColores(self, colorBoton, colorTexto):
+        self.colorTexto = colorTexto
+        self.colorBoton = colorBoton
