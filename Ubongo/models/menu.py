@@ -22,7 +22,7 @@ class Menu(Componente):
         self.botonIniciar = Boton((0, 0, 0), (255, 255, 255), (2*self.x + self.width)/2 - 250/2, yLogo + self.logoRect.height/3 + self.height / 2, 250, 70,
                              "Iniciar juego")
         self.botonDificultad = Boton((0, 0, 0), (255, 255, 255), self.botonIniciar.x, self.botonIniciar.y + self.botonIniciar.height + 40,
-                                250, 70, "Dificultad")
+                                250, 70, "Dificultad")                  
         self.botonIniciar.draw(self.window)
         self.botonDificultad.draw(self.window)
 

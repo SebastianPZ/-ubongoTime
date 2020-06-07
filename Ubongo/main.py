@@ -1,5 +1,6 @@
 import pygame
 from models.menu import Menu
+from models.PantallaJuego import PantallaJuego
 mesa = pygame.image.load('assets/Fondos/fondo mesa.png')
 pygame.init()
 window = pygame.display.set_mode((1600, 900))
@@ -7,11 +8,11 @@ window = pygame.display.set_mode((1600, 900))
 pygame.display.set_caption("Prueba")
 run = True
 menu = Menu(window)
+pantallaJuego = PantallaJuego(window)
 
 def dibujarPantallaInicio(window):
     window.blit(mesa, (0, 0))
-    menu.dibujarMenu()
-
+    pantallaJuego.dibujarTablero()
 
 dibujarPantallaInicio(window)
 
