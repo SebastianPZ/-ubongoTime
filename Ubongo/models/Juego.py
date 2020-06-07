@@ -13,7 +13,7 @@ class Juego():
 
     def asignarPuzzles(self, dificultad):
         puzzles = []
-
+        indice = 0
         for i in range(9):
             while True:
                 if dificultad == "facil" :
