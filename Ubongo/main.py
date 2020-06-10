@@ -1,6 +1,9 @@
 import pygame
 from models.menu import Menu
-from models.Puzzle import  Puzzle
+from models.Puzzle import Puzzle
+from models.PantallaJuego import PantallaJuego
+from models.PiezaFactory import PiezaFactory
+
 mesa = pygame.image.load('assets/Fondos/fondo mesa.png')
 pygame.init()
 window = pygame.display.set_mode((1920, 1080))
@@ -8,6 +11,7 @@ window = pygame.display.set_mode((1920, 1080))
 pygame.display.set_caption("Prueba")
 run = True
 menu = Menu(window)
+pantallaJuego = PantallaJuego(window)
 enPantallaInicio = True
 enJugadores = False
 enDificultad = False
@@ -21,31 +25,52 @@ dificultadDificil = False
 
 puzzleImg1 = pygame.image.load('../assets/Puzzles/Puzzle 1.png')
 puzzleImg2 = pygame.image.load('../assets/Puzzles/Puzzle 2.png')
-puzzle1 = Puzzle(window, 350, 500, 400, 300, puzzleImg1)
-puzzle2 = Puzzle(window, 1200, 500, 400, 300, puzzleImg2)
+puzzle1 = Puzzle(window, 350, 550, 400, 300, puzzleImg1, 1, [[1, 2, 3], [3, 4, 1]])
+puzzle2 = Puzzle(window, 1300, 550, 400, 300, puzzleImg2, 1,  [[1, 2, 3], [2, 5, 1]])
+
+dadoValor = 1
+piezasPuzzle1 = []
+piezasPuzzle2 = []
+i = 50
+for piezaId in puzzle1.piezas[dadoValor]:
+    piezasPuzzle1.append(PiezaFactory.crearPieza(250 + i, 770, piezaId, window))
+    i += 50
+j = 50
+for piezaId in puzzle2.piezas[dadoValor]:
+    piezasPuzzle2.append(PiezaFactory.crearPieza(1200 + j, 770, piezaId, window))
+    j += 50
 
 
 def dibujarMesa(window):
     window.blit(mesa, (0, 0))
+    pantallaJuego.dibujarTablero()
+
 
 def dibujarMenu():
+    window.blit(mesa, (0, 0))
     menu.dibujarMenu()
     menu.dibujarBotones(enPantallaInicio, enJugadores, enDificultad)
 
 def dibujarJuego():
     window.blit(mesa, (0, 0))
     if unJugEnJuego:
+        pantallaJuego.dibujarTablero()
         puzzle1.dibujarPuzzle()
         puzzle2.dibujarPuzzle()
 
+def dibujarPiezas():
+    for pieza in piezasPuzzle1:
+        pieza.dibujarPieza()
+    for pieza in piezasPuzzle2:
+        pieza.dibujarPieza()
 
 while run:
 
-    dibujarMesa(window)
     dibujarMenu()
     if enJuego:
+        pantallaJuego.dibujarTablero()
         dibujarJuego()
-
+        dibujarPiezas()
     pygame.display.update()
 
     for event in pygame.event.get():

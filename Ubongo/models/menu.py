@@ -71,5 +71,3 @@ class Menu(Componente):
             self.botonDificultadNormal.setColores((0, 0, 0), (255, 255, 255))
             self.botonDificultadDificil.setColores((0, 0, 0), (255, 255, 255))
 
-
-

@@ -1,9 +1,34 @@
-fh = open("Piezas.txt")
+# import sys
+# sys.path.append("D://7MO CICLO//COMPLEJIDAD_ALGORÍTMICA//Trabajo Final//ubongoTime//Ubongo//assets//Piezas//")
 
-piezas = ['P1', 'P0', 'P7', 'P8']
+
+def recuperarPiezaPorId(idPieza):
+    fh = open('assets\\Piezas\\Piezas.txt', 'r')
+    c = 0
+    x = []
+    y = []
+    for line in fh.readlines():
+        if line.strip() == 'P' + str(idPieza):
+            c = 1
+            continue
+        if c == 1:
+            if line.strip() == 'Fin':
+                c = 0
+                break
+            else:
+                for n in line.strip().split(','):
+                    x.append(int(n))
+                y.append(x)
+                x = []
+    return y
 
 
-def procesarPiezas(piezas):
+
+
+
+def procesarPiezas():
+    piezas = ['P1', 'P0', 'P7', 'P8']
+    fh = open("../assets/Piezas/Piezas.txt")
     x = []
     y = []
     z = []
@@ -40,8 +65,8 @@ def procesarPiezas(piezas):
 
     return z
 
-z = procesarPiezas(piezas)
-
-for elemento in z:
-    print(elemento)
-print(piezas)
+# z = procesarPiezas(piezas)
+#
+# for elemento in z:
+#     print(elemento)
+# print(piezas)
