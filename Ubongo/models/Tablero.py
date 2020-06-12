@@ -1,10 +1,11 @@
 import pygame
 from models.componente import Componente
-from models.boton import Boton
+
 logo = pygame.image.load('assets/Acciones/ubongo logo1.png')
 menu = pygame.image.load('assets/Fondos/fondoUbongo.jpg')
 tablero = pygame.image.load('assets/Tablero/Tablero.png')
-tablero = pygame.transform.scale(tablero, (721, 178))
+#tablero = pygame.transform.scale(tablero, (731, 188))
+tablero = pygame.transform.scale(tablero, (790, 230))
 
 class Tablero(Componente):
     def __init__(self, window, x, y, width = 100, height = 100):

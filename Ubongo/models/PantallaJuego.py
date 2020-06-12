@@ -1,8 +1,6 @@
-import pygame
 from models.componente import Componente
-from models.boton import Boton
 from models.Tablero import Tablero
-from models.BarraJuego import BarraJuego
+from models.utils.BarraJuego import BarraJuego
 
 
 class PantallaJuego(Componente):

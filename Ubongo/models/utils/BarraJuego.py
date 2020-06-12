@@ -1,6 +1,6 @@
 import pygame
 from models.componente import Componente
-from models.boton import Boton
+
 logo = pygame.image.load('assets/Acciones/ubongo logo1.png')
 menu = pygame.image.load('assets/Fondos/fondoUbongo.jpg')
 reloj = pygame.image.load('assets/Acciones/reloj.png')

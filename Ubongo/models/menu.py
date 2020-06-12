@@ -1,6 +1,6 @@
 import pygame
 from models.componente import Componente
-from models.boton import Boton
+from models.utils.boton import Boton
 from models.logo import Logo
 logo = pygame.image.load('assets/Acciones/ubongo logo1.png')
 menu = pygame.image.load('assets/Fondos/fondoUbongo.jpg')
@@ -22,24 +22,25 @@ class Menu(Componente):
         self.botonTresJugadores = Boton((0, 0, 0), (255, 255, 255), self.botonDosJugadores.x, self.botonDosJugadores.y + self.botonDosJugadores.height + 25, 250, 70, "3 Jugadores")
         self.botonDificultadNormal = Boton((0, 0, 0), (255, 255, 255), (2*self.x + self.width)/2 - 250/2, self.logo.y + self.logo.height/3 + self.height / 2, 250, 70, "Normal (3 piezas)")
         self.botonDificultadDificil = Boton((0, 0, 0), (255, 255, 255), self.botonDificultadNormal.x, self.botonDificultadNormal.y + self.botonDificultadNormal.height + 40, 250, 70, "Difícil (4 piezas)")
-
+        self.enPantallaInicio = True
+        self.enJugadores = False
+        self.enDificultad = False
 
     def dibujarMenu(self):
         self.window.blit(menu, (self.x, self.y))
         self.logo.dibujarLogo(self.window)
 
-    def dibujarBotones(self, enPantallaInicio, enJugadores, enDificultad):
-        if enPantallaInicio:
+    def dibujarBotones(self):
+        if self.enPantallaInicio:
             self.botonIniciar.draw(self.window)
             self.botonDificultad.draw(self.window)
-        elif enJugadores:
+        elif self.enJugadores:
             self.botonUnJugador.draw(self.window)
             self.botonDosJugadores.draw(self.window)
             self.botonTresJugadores.draw(self.window)
-        elif enDificultad:
+        elif self.enDificultad:
             self.botonDificultadNormal.draw(self.window)
             self.botonDificultadDificil.draw(self.window)
-
 
     def validarPosicionInicio(self, pos):
         if self.botonIniciar.isOver(pos):
@@ -49,6 +50,7 @@ class Menu(Componente):
         else:
             self.botonIniciar.setColores((0, 0, 0), (255, 255, 255))
             self.botonDificultad.setColores((0, 0, 0), (255, 255, 255))
+
 
     def validarPosicionJugadores(self, pos):
         if self.botonUnJugador.isOver(pos):
@@ -61,6 +63,7 @@ class Menu(Componente):
             self.botonUnJugador.setColores((0, 0, 0), (255, 255, 255))
             self.botonDosJugadores.setColores((0, 0, 0), (255, 255, 255))
             self.botonTresJugadores.setColores((0, 0, 0), (255, 255, 255))
+
 
     def validarPosicionDificultad(self, pos):
         if self.botonDificultadNormal.isOver(pos):
