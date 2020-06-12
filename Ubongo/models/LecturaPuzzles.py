@@ -20,4 +20,4 @@ def recuperarPuzzleNormalPorId(idPuzzle):
 
     return matrizPuzzle
 
-def leerPiezasPorDado(d)
+
