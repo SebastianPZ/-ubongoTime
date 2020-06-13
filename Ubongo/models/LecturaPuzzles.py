@@ -1,5 +1,9 @@
-def recuperarPuzzleNormalPorId(idPuzzle):
-    fh = open('assets\\Puzzles\\PuzzlesDificultadNormal.txt', 'r')
+def recuperarPuzzlePorId(idPuzzle, dificultad):
+    fh = None
+    if dificultad == "Normal":
+        fh = open('assets\\Puzzles\\PuzzlesDificultadNormal.txt', 'r')
+    else:
+        fh = open('assets\\Puzzles\\PuzzlesDificultadDificil.txt', 'r')
     c = 0
     matrizPuzzle = []
     partePuzzle = []

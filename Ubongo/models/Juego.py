@@ -2,20 +2,22 @@ import pygame
 import random as random
 from models.menu import Menu
 from models.factory.PuzzleFactory import PuzzleFactory
+from models.factory.PiezaFactory import PiezaFactory
 from models.Dado import Dado
 from models.Puzzle import Puzzle
-from models.LecturaPuzzles import recuperarPiezasDePuzzleSegunDado
+
 class Juego():
+
     def __init__(self, window):
+        self.window = window
         self.menu = Menu(window)
         self.tablero = None
         self.jugadores = []
         self.numeroRonda = 0
-        self.dado = None
+        self.dado = Dado(300, 300, 100, 100, self.window)
         self.temporizador = None
         self.mazoPuzzles = []
         self.dificultad = None
-        self.window = window
         self.numeroJugadores = 0
         self.enJuego = False
         self.enMenu = True
@@ -25,28 +27,59 @@ class Juego():
 
     def asignarPuzzles(self, dificultad):
         idPuzzle = 0
+        x = 0
+        y = 550
+        espaciado = 0
+        if self.numeroJugadores == 2:
+            x = 350
+            espaciado = 850
+        elif self.numeroJugadores == 3:
+            x = 250
+            espaciado = 650
+        elif self.numeroJugadores == 4:
+            x = 175
+            espaciado = 450
         for i in range(self.numeroJugadores):
+            if i != 0:
+                x += espaciado
             for _ in range(9):
                 if dificultad == "Normal":
                    idPuzzle = random.randint(0,37)
                 elif dificultad == "Difícil":
                    idPuzzle = random.randint(38,74)
-                puzzleGenerado = PuzzleFactory.crearPuzzle(350, 550, idPuzzle, self.window, dificultad)
+                puzzleGenerado = PuzzleFactory.crearPuzzle(x, y, idPuzzle, self.window, dificultad)
                 self.jugadores[i].puzzles.append(puzzleGenerado)
+            self.jugadores[i].puzzleSeleccionado = self.jugadores[i].puzzles[0]
 
     def dibujarPuzzles(self):
         for i in range(self.numeroJugadores):
             self.jugadores[i].puzzles[self.numeroRonda].dibujarPuzzle()
 
-    def asignarPiezas(self, simboloDado):
+    def asignarPiezas(self):
+        x = 200
+        espaciadoPiezas = 20
+        y = 770
+        espaciadoJugador = 0
+        if self.numeroJugadores == 2:
+            espaciadoJugador = 850
+        elif self.numeroJugadores == 3:
+            espaciadoJugador = 650
+        elif self.numeroJugadores == 4:
+            espaciadoJugador = 450
         for i in range(self.numeroJugadores):
+            if i != 0:
+                x += espaciadoJugador
             jugador = self.jugadores[i]
-            id = jugador.puzzles[self.numeroRonda].idPuzzle
-            jugador.piezas = recuperarPiezasDePuzzleSegunDado(id, simboloDado)
+            codigosPiezas = jugador.puzzles[jugador.puzzleSeleccionado].piezas[self.dado.posicion]
+            for j in range(len(codigosPiezas)):
+                if j != 0:
+                    x += espaciadoPiezas
+                jugador.piezas.append(PiezaFactory.crearPieza(x, y, codigosPiezas[i], self.window))
 
-
-
-
+    def dibujarPiezas(self):
+        for i in range(self.numeroJugadores):
+            for j in range(len(self.jugadores[i].piezas)):
+                self.jugadores[i].piezas[j].dibujarPieza()
 
     def dibujarMenu(self):
         if self.enMenu:

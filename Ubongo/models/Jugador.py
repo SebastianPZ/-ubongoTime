@@ -1,11 +1,11 @@
 import pygame
 
 class Jugador():
-    def __init__(self, id, puzzles, listaMovimientos):
+    def __init__(self, id, listaMovimientos):
         self.id = id
         self.piezas = []
         self.piezaSeleccionada = 0
-        self.puzzles = puzzles 
+        self.puzzles = None
         self.puzzleSeleccionado = None
         self.ficha = None
         self.gemas = None
@@ -24,6 +24,10 @@ class Jugador():
             pass
         elif movimiento == self.listaMovimientos[5]:
             pass
+
+    def cambiarPuzzleSeleccionado(self):
+        self.puzzleSeleccionado += 1
+
 
 # def moverPiezas(event, piezaId):
 #     # con la letra Q se cambia de pieza
