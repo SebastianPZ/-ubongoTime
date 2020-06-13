@@ -1,14 +1,15 @@
 import pygame
 import random as random
 from models.menu import Menu
+from models.factory.PuzzleFactory import PuzzleFactory
 from models.Dado import Dado
 from models.Puzzle import Puzzle
-
+from models.LecturaPuzzles import recuperarPiezasDePuzzleSegunDado
 class Juego():
     def __init__(self, window):
         self.menu = Menu(window)
         self.tablero = None
-        self.jugadores = None
+        self.jugadores = []
         self.numeroRonda = 0
         self.dado = None
         self.temporizador = None
@@ -19,23 +20,33 @@ class Juego():
         self.enJuego = False
         self.enMenu = True
 
+    def setJugadores(self, numeroJugadores):
+        self.numeroJugadores = numeroJugadores
+
     def asignarPuzzles(self, dificultad):
-        puzzles = []
         idPuzzle = 0
-        for i in range(len(self.jugadores)):
+        for i in range(self.numeroJugadores):
             for _ in range(9):
                 if dificultad == "Normal":
                    idPuzzle = random.randint(0,37)
                 elif dificultad == "Difícil":
                    idPuzzle = random.randint(38,74)
-
-                puzzleImage = pygame.image.load('../assets/Puzzles/Puzzle ' + str(idPuzzle) + '.png')
-                puzzleGenerado = Puzzle(self.window, 350, 550, 400, 300, puzzleImage, dificultad, )
+                puzzleGenerado = PuzzleFactory.crearPuzzle(350, 550, idPuzzle, self.window, dificultad)
                 self.jugadores[i].puzzles.append(puzzleGenerado)
 
+    def dibujarPuzzles(self):
+        for i in range(self.numeroJugadores):
+            self.jugadores[i].puzzles[self.numeroRonda].dibujarPuzzle()
 
-    def asignarFichas(self):
-        return None
+    def asignarPiezas(self, simboloDado):
+        for i in range(self.numeroJugadores):
+            jugador = self.jugadores[i]
+            id = jugador.puzzles[self.numeroRonda].idPuzzle
+            jugador.piezas = recuperarPiezasDePuzzleSegunDado(id, simboloDado)
+
+
+
+
 
     def dibujarMenu(self):
         if self.enMenu:

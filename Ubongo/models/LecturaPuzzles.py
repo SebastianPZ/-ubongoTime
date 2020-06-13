@@ -16,8 +16,22 @@ def recuperarPuzzleNormalPorId(idPuzzle):
                     partePuzzle.append(int(n))
                 matrizPuzzle.append(partePuzzle)
                 partePuzzle = []
-
-
     return matrizPuzzle
 
 
+
+def recuperarPiezasDePuzzle(idPuzzle):
+    fh = open('assets\\Puzzles\\PiezasDeCadaPuzzle.txt', 'r')
+    c = 0
+    listaPiezas = []
+    matrizPiezas = []
+    for line in fh.readlines():
+        if line.strip() == '#Piezas ' + str(idPuzzle):
+            c = 1
+            continue
+        if c == 1:
+            for n in line.strip().split(','):
+                listaPiezas.append(int(n))
+            matrizPiezas.append(listaPiezas)
+            listaPiezas = []
+    return matrizPiezas

@@ -29,7 +29,6 @@ class Dado(Componente):
     def dadoSeis(self):
         self.image = pygame.image.load('../assets/Dado/Dado 6.png')
 
-
     def tirarDado(self):
         aleatorio = random.randint(1, 6)
         if aleatorio == 1:
@@ -45,4 +44,6 @@ class Dado(Componente):
         elif aleatorio == 6:
             self.dadoSeis()
 
+    def dibujar(self):
+        self.window.blit(self.image, (self.x, self.y))
 

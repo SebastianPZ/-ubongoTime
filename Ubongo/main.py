@@ -7,7 +7,9 @@ from models.Juego import Juego
 
 mesa = pygame.image.load('assets/Fondos/fondo mesa.png')
 pygame.init()
-window = pygame.display.set_mode((1920, 1080))
+
+
+window = pygame.display.set_mode((1680, 1050))
 
 pygame.display.set_caption("Prueba")
 run = True
@@ -55,6 +57,7 @@ def dibujarMenu():
     menu.dibujarMenu()
     menu.dibujarBotones()
 
+
 def dibujarJuego():
     window.blit(mesa, (0, 0))
     ubongo.dibujarMenu()
@@ -63,11 +66,45 @@ def dibujarJuego():
         # puzzle1.dibujarPuzzle()
         # puzzle2.dibujarPuzzle()
 
+
 # def dibujarPiezas():
 #     for pieza in piezasPuzzle1:
 #         pieza.dibujarPieza()
 #     for pieza in piezasPuzzle2:
 #         pieza.dibujarPieza()
+
+
+
+
+
+#############################################
+#           MOVIMIENTO DE PIEZAS
+#############################################
+
+# def moverPiezas(event, piezaId):
+#     # con la letra Q se cambia de pieza
+#     # con la letra E se gira y con la R se invierte
+#     # W, A, S, D para el movimiento
+#
+#     if event.key == pygame.K_a:
+#         piezasPuzzle1[piezaSeleccionadaId].x -= 30
+#     elif event.key == pygame.K_w:
+#         piezasPuzzle1[piezaSeleccionadaId].y -= 30
+#     elif event.key == pygame.K_s:
+#         piezasPuzzle1[piezaSeleccionadaId].y += 30
+#     elif event.key == pygame.K_d:
+#         piezasPuzzle1[piezaSeleccionadaId].x += 30
+#     elif event.key == pygame.K_e:
+#         # girar pieza
+#         pass
+#     elif event.key == pygame.K_r:
+#         # invertir
+#         pass
+#     return
+
+
+
+#############################################
 
 while run:
 
@@ -87,7 +124,6 @@ while run:
             pygame.quit()
             quit()
 
-
         if event.type == pygame.MOUSEMOTION:
             if ubongo.enMenu:
                 ubongo.hoverBotonesMenu(posicionMouse)
@@ -95,6 +131,7 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if ubongo.enMenu:
                 ubongo.transicionarMenu(posicionMouse)
+
 
 
 

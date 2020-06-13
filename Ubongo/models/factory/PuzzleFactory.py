@@ -9,9 +9,10 @@ class PuzzleFactory:
 
     @staticmethod
     def crearPuzzle(x, y, idPuzzle, window, dificultad):
+        puzzleCreado = None
         if dificultad == "Normal":
             puzzleCreado = Puzzle(window, x, y, 400, 300, idPuzzle, dificultad)
-            puzzleCreado.setForma(recuperarPuzzleNormalPorId(idPuzzle))
-        return piezaCreada
+        return puzzleCreado
+
 
 
