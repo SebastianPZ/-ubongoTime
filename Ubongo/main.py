@@ -9,7 +9,9 @@ mesa = pygame.image.load('assets/Fondos/fondo mesa.png')
 pygame.init()
 
 
-window = pygame.display.set_mode((1680, 1050))
+#window = pygame.display.set_mode((1680, 1050))
+#Comenten el de abajo y descomenten el de arriba si su pantalla es más pequeña
+window = pygame.display.set_mode((1920, 1080))
 
 pygame.display.set_caption("Prueba")
 run = True
@@ -17,7 +19,7 @@ menu = Menu(window)
 ubongo = Juego(window)
 
 
-pantallaJuego = PantallaJuego(window)
+
 # enPantallaInicio = True
 # enJugadores = False
 # enDificultad = False
@@ -47,24 +49,9 @@ pantallaJuego = PantallaJuego(window)
 #     j += 50
 
 
-def dibujarMesa(window):
-    window.blit(mesa, (0, 0))
-    pantallaJuego.dibujarTablero()
 
 
-def dibujarMenu():
-    window.blit(mesa, (0, 0))
-    menu.dibujarMenu()
-    menu.dibujarBotones()
 
-
-def dibujarJuego():
-    window.blit(mesa, (0, 0))
-    ubongo.dibujarMenu()
-    if ubongo.numeroJugadores == 1:
-        pantallaJuego.dibujarTablero()
-        # puzzle1.dibujarPuzzle()
-        # puzzle2.dibujarPuzzle()
 
 
 # def dibujarPiezas():
@@ -74,13 +61,9 @@ def dibujarJuego():
 #         pieza.dibujarPieza()
 
 
-
-
-
 #############################################
 #           MOVIMIENTO DE PIEZAS
 #############################################
-
 # def moverPiezas(event, piezaId):
 #     # con la letra Q se cambia de pieza
 #     # con la letra E se gira y con la R se invierte
@@ -101,18 +84,18 @@ def dibujarJuego():
 #         # invertir
 #         pass
 #     return
-
-
-
 #############################################
 
+paraTirarDado = 0
 while run:
 
-    dibujarJuego()
+    window.blit(mesa, (0, 0))
+    if ubongo.enMenu:
+        ubongo.dibujarMenu()
     if ubongo.enJuego:
-        pantallaJuego.dibujarTablero()
-        dibujarJuego()
-        #dibujarPiezas()
+        ubongo.dibujarJuego()
+
+
     pygame.display.update()
 
     for event in pygame.event.get():
@@ -132,6 +115,9 @@ while run:
             if ubongo.enMenu:
                 ubongo.transicionarMenu(posicionMouse)
 
+        if event.type == pygame.KEYDOWN:
+            if ubongo.enJuego:
+                ubongo.jugar(event.key)
 
 
 

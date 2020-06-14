@@ -5,48 +5,53 @@ from models.factory.PuzzleFactory import PuzzleFactory
 from models.factory.PiezaFactory import PiezaFactory
 from models.Dado import Dado
 from models.Puzzle import Puzzle
+from models.utils.movimientosJugador import definirMovimientosJugador
+from models.Jugador import Jugador
+from models.PantallaJuego import PantallaJuego
 
 class Juego():
 
     def __init__(self, window):
         self.window = window
         self.menu = Menu(window)
+        self.pantallaJuego = PantallaJuego(window)
         self.tablero = None
         self.jugadores = []
         self.numeroRonda = 0
         self.dado = Dado(300, 300, 100, 100, self.window)
         self.temporizador = None
         self.mazoPuzzles = []
-        self.dificultad = None
+        self.dificultad = ""
         self.numeroJugadores = 0
         self.enJuego = False
         self.enMenu = True
 
-    def setJugadores(self, numeroJugadores):
-        self.numeroJugadores = numeroJugadores
+    def crearJugadores(self):
+        for id in range(self.numeroJugadores):
+            self.jugadores.append(Jugador(id, definirMovimientosJugador(id)))
 
     def asignarPuzzles(self, dificultad):
         idPuzzle = 0
         x = 0
-        y = 550
+        y = 600
         espaciado = 0
         if self.numeroJugadores == 2:
             x = 350
             espaciado = 850
         elif self.numeroJugadores == 3:
-            x = 250
-            espaciado = 650
+            x = 200
+            espaciado = 600
         elif self.numeroJugadores == 4:
-            x = 175
+            x = 155
             espaciado = 450
         for i in range(self.numeroJugadores):
             if i != 0:
                 x += espaciado
             for _ in range(9):
                 if dificultad == "Normal":
-                   idPuzzle = random.randint(0,37)
+                   idPuzzle = random.randint(1,8)
                 elif dificultad == "Difícil":
-                   idPuzzle = random.randint(38,74)
+                   idPuzzle = random.randint(1,34)
                 puzzleGenerado = PuzzleFactory.crearPuzzle(x, y, idPuzzle, self.window, dificultad)
                 self.jugadores[i].puzzles.append(puzzleGenerado)
             self.jugadores[i].puzzleSeleccionado = self.jugadores[i].puzzles[0]
@@ -56,9 +61,10 @@ class Juego():
             self.jugadores[i].puzzles[self.numeroRonda].dibujarPuzzle()
 
     def asignarPiezas(self):
-        x = 200
-        espaciadoPiezas = 20
-        y = 770
+        x = 150
+        espaciadoXPiezas = 50
+        espaciadoYPiezas = 20
+        y = 870
         espaciadoJugador = 0
         if self.numeroJugadores == 2:
             espaciadoJugador = 850
@@ -70,11 +76,13 @@ class Juego():
             if i != 0:
                 x += espaciadoJugador
             jugador = self.jugadores[i]
-            codigosPiezas = jugador.puzzles[jugador.puzzleSeleccionado].piezas[self.dado.posicion]
+            codigosPiezas = jugador.puzzleSeleccionado.piezas[self.dado.posicion]
             for j in range(len(codigosPiezas)):
                 if j != 0:
-                    x += espaciadoPiezas
-                jugador.piezas.append(PiezaFactory.crearPieza(x, y, codigosPiezas[i], self.window))
+                    x += espaciadoXPiezas
+                    y += espaciadoYPiezas
+                jugador.piezas.append(PiezaFactory.crearPieza(x, y, codigosPiezas[j], self.window))
+            self.jugadores[i].piezaSeleccionada = self.jugadores[i].piezas[0]
 
     def dibujarPiezas(self):
         for i in range(self.numeroJugadores):
@@ -87,16 +95,9 @@ class Juego():
             self.menu.dibujarBotones()
 
     def hoverBotonesMenu(self, pos):
-
-        if self.menu.enPantallaInicio:
-            self.menu.validarPosicionInicio(pos)
-        elif self.menu.enJugadores:
-            self.menu.validarPosicionJugadores(pos)
-        elif self.menu.enDificultad:
-            self.menu.validarPosicionDificultad(pos)
+        self.menu.hoverBotonesMenu(pos)
 
     def transicionarMenu(self, posicionMouse):
-
         if self.menu.enPantallaInicio:
             if self.menu.botonIniciar.isOver(posicionMouse):
                 self.menu.enPantallaInicio = False
@@ -106,22 +107,23 @@ class Juego():
                 self.menu.enDificultad = True
 
         elif self.menu.enJugadores:
-            if self.menu.botonUnJugador.isOver(posicionMouse):
+            if self.dificultad != "":
+                if self.menu.botonUnJugador.isOver(posicionMouse):
+                    self.numeroJugadores = 2
+                elif self.menu.botonDosJugadores.isOver(posicionMouse):
+                    self.numeroJugadores = 3
+                elif self.menu.botonTresJugadores.isOver(posicionMouse):
+                    self.numeroJugadores = 4
+                if self.menu.botonUnJugador.isOver(posicionMouse) or self.menu.botonDosJugadores.isOver(posicionMouse) or self.menu.botonTresJugadores.isOver(posicionMouse):
+                    self.menu.enJugadores = False
+                    self.crearJugadores()
+                    self.asignarPuzzles(self.dificultad)
+                    self.asignarPiezas()
+                    self.enJuego = True
+                    self.enMenu = False
+            if self.menu.botonRegresar.isOver(posicionMouse):
+                self.menu.enPantallaInicio = True
                 self.menu.enJugadores = False
-                self.numeroJugadores = 1
-                self.enJuego = True
-                self.enMenu = False
-            elif self.menu.botonDosJugadores.isOver(posicionMouse):
-                self.menu.enJugadores = False
-                self.numeroJugadores = 2
-                self.enJuego = True
-                self.enMenu = False
-            elif self.menu.botonTresJugadores.isOver(posicionMouse):
-                self.menu.enJugadores = False
-                self.numeroJugadores = 3
-                self.enJuego = True
-                self.enMenu = False
-
         elif self.menu.enDificultad:
             if self.menu.botonDificultadNormal.isOver(posicionMouse):
                 self.menu.enDificultad = False
@@ -131,7 +133,20 @@ class Juego():
                 self.menu.enDificultad = False
                 self.menu.enPantallaInicio = True
                 self.dificultad = "Difícil"
+            elif self.menu.botonRegresar.isOver(posicionMouse):
+                self.menu.enPantallaInicio = True
+                self.menu.enDificultad = False
 
 
+    def dibujarJuego(self):
+        self.dibujarMenu()
+        self.pantallaJuego.dibujarTablero()
+        self.dibujarPuzzles()
+        self.dibujarPiezas()
 
+    def tirarDado(self):
+        self.pantallaJuego.dado.tirarDado()
 
+    def jugar(self, movimiento):
+        for i in range(self.numeroJugadores):
+            self.jugadores[i].moverPieza(movimiento)

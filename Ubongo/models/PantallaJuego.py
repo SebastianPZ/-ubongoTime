@@ -1,7 +1,7 @@
 from models.componente import Componente
 from models.Tablero import Tablero
 from models.utils.BarraJuego import BarraJuego
-
+from models.Dado import Dado
 
 class PantallaJuego(Componente):
     def __init__(self, window, width = 100, height = 100):
@@ -9,9 +9,12 @@ class PantallaJuego(Componente):
         self.window = window
         self.tablero = Tablero(window, 450, 250, 250, 250)
         self.barraJuego = BarraJuego(window)
+        self.dado = Dado(1350, 300, 200, 200, window)
         self.width = width
         self.height = height
 
     def dibujarTablero(self):
         self.barraJuego.dibujarBarraJuego()
         self.tablero.dibujarTablero()
+        self.dado.dibujar()
+

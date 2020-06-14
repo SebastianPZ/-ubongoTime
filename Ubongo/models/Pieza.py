@@ -7,10 +7,10 @@ class Pieza(Componente):
 
     def __init__(self, x, y, idPieza, window):
         self.window = window
-        self.piezaImg = pygame.image.load('../assets/Piezas/Pieza '+ str(idPieza) + '.png')
-        Componente.__init__(self, x, y, self.piezaImg.get_rect().width, self.piezaImg.get_rect().height)
-        self.piezaImgEscalada = pygame.transform.scale(self.piezaImg, (self.width//2, self.height//2))
         self.idPieza = idPieza
+        self.piezaImg = pygame.image.load('assets\\Piezas\\Pieza_' + str(idPieza) + '.png')
+        Componente.__init__(self, x, y, self.piezaImg.get_rect().width, self.piezaImg.get_rect().height)
+        self.piezaImgEscalada = pygame.transform.scale(self.piezaImg, (self.width//3, self.height//3))
         self.forma = recuperarPiezaPorId(self.idPieza)
 
 

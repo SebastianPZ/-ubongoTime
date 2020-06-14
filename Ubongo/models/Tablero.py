@@ -1,11 +1,9 @@
 import pygame
 from models.componente import Componente
-
 logo = pygame.image.load('assets/Acciones/ubongo logo1.png')
 menu = pygame.image.load('assets/Fondos/fondoUbongo.jpg')
 tablero = pygame.image.load('assets/Tablero/Tablero.png')
-#tablero = pygame.transform.scale(tablero, (731, 188))
-tablero = pygame.transform.scale(tablero, (790, 230))
+tablero = pygame.transform.scale(tablero, (890, 290))
 
 class Tablero(Componente):
     def __init__(self, window, x, y, width = 100, height = 100):
@@ -18,6 +16,3 @@ class Tablero(Componente):
 
     def dibujarTablero(self):
         self.window.blit(tablero, (self.x, self.y))
-
-
-

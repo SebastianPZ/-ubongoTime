@@ -4,8 +4,8 @@ class Jugador():
     def __init__(self, id, listaMovimientos):
         self.id = id
         self.piezas = []
-        self.piezaSeleccionada = 0
-        self.puzzles = None
+        self.piezaSeleccionada = None
+        self.puzzles = []
         self.puzzleSeleccionado = None
         self.ficha = None
         self.gemas = None
@@ -13,20 +13,25 @@ class Jugador():
     
     def moverPieza(self, movimiento):
         if movimiento == self.listaMovimientos[0]:
-            self.piezas[self.piezaSeleccionada].y -= 30
+            self.piezaSeleccionada.y -= 30
         elif movimiento == self.listaMovimientos[1]:
-            self.piezas[self.piezaSeleccionada].y += 30
+            self.piezaSeleccionada.y += 30
         elif movimiento == self.listaMovimientos[2]:
-            self.piezas[self.piezaSeleccionada].x -= 30
+            self.piezaSeleccionada.x -= 30
         elif movimiento == self.listaMovimientos[3]:
-            self.piezas[self.piezaSeleccionada].x += 30
+            self.piezaSeleccionada.x += 30
         elif movimiento == self.listaMovimientos[4]:
-            pass
+            self.cambiarPuzzleSeleccionado()
         elif movimiento == self.listaMovimientos[5]:
             pass
 
     def cambiarPuzzleSeleccionado(self):
-        self.puzzleSeleccionado += 1
+        idPiezaSeleccionada = self.piezas.index(self.piezaSeleccionada)
+        if idPiezaSeleccionada == len(self.piezas) - 1:
+            self.piezaSeleccionada = self.piezas[0]
+        else:
+            self.piezaSeleccionada = self.piezas[idPiezaSeleccionada + 1]
+
 
 
 # def moverPiezas(event, piezaId):

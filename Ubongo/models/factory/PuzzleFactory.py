@@ -1,5 +1,4 @@
 from models.Puzzle import Puzzle
-from models.LecturaPuzzles import recuperarPuzzleNormalPorId
 import pygame
 
 
@@ -11,7 +10,7 @@ class PuzzleFactory:
     def crearPuzzle(x, y, idPuzzle, window, dificultad):
         puzzleCreado = None
         if dificultad == "Normal":
-            puzzleCreado = Puzzle(window, x, y, 400, 300, idPuzzle, dificultad)
+            puzzleCreado = Puzzle(window, x, y, 200, 300, idPuzzle, dificultad)
         return puzzleCreado
 
 
