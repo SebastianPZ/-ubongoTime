@@ -10,7 +10,7 @@ class PuzzleFactory:
     def crearPuzzle(x, y, idPuzzle, window, dificultad):
         puzzleCreado = None
         if dificultad == "Normal":
-            puzzleCreado = Puzzle(window, x, y, 200, 300, idPuzzle, dificultad)
+            puzzleCreado = Puzzle(window, x, y, idPuzzle, dificultad)
         return puzzleCreado
 
 

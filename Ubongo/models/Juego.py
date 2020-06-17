@@ -33,7 +33,7 @@ class Juego():
     def asignarPuzzles(self, dificultad):
         idPuzzle = 0
         x = 0
-        y = 600
+        y = 650
         espaciado = 0
         if self.numeroJugadores == 2:
             x = 350
@@ -49,7 +49,7 @@ class Juego():
                 x += espaciado
             for _ in range(9):
                 if dificultad == "Normal":
-                   idPuzzle = random.randint(1,8)
+                   idPuzzle = 1#random.randint(1,8)
                 elif dificultad == "Difícil":
                    idPuzzle = random.randint(1,34)
                 puzzleGenerado = PuzzleFactory.crearPuzzle(x, y, idPuzzle, self.window, dificultad)
@@ -61,27 +61,17 @@ class Juego():
             self.jugadores[i].puzzles[self.numeroRonda].dibujarPuzzle()
 
     def asignarPiezas(self):
-        x = 150
-        espaciadoXPiezas = 50
-        espaciadoYPiezas = 20
-        y = 870
-        espaciadoJugador = 0
-        if self.numeroJugadores == 2:
-            espaciadoJugador = 850
-        elif self.numeroJugadores == 3:
-            espaciadoJugador = 650
-        elif self.numeroJugadores == 4:
-            espaciadoJugador = 450
+        pieza = None
         for i in range(self.numeroJugadores):
-            if i != 0:
-                x += espaciadoJugador
             jugador = self.jugadores[i]
+            x = jugador.puzzleSeleccionado.x
             codigosPiezas = jugador.puzzleSeleccionado.piezas[self.dado.posicion]
+            y = jugador.puzzleSeleccionado.y + jugador.puzzleSeleccionado.height + 35
             for j in range(len(codigosPiezas)):
-                if j != 0:
-                    x += espaciadoXPiezas
-                    y += espaciadoYPiezas
-                jugador.piezas.append(PiezaFactory.crearPieza(x, y, codigosPiezas[j], self.window))
+                if j > 0 and pieza != None:
+                    x += pieza.width
+                pieza = PiezaFactory.crearPieza(x, y, codigosPiezas[j], self.window)
+                jugador.piezas.append(pieza)
             self.jugadores[i].piezaSeleccionada = self.jugadores[i].piezas[0]
 
     def dibujarPiezas(self):
@@ -150,3 +140,5 @@ class Juego():
     def jugar(self, movimiento):
         for i in range(self.numeroJugadores):
             self.jugadores[i].moverPieza(movimiento)
+
+
