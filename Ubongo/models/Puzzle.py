@@ -44,3 +44,11 @@ class Puzzle(Componente):
                 cuadrado.dibujarCuadradoPuzzle()
 
 
+    def colisionConPieza(self, pieza):
+
+        if pieza.x + pieza.width > self.x and pieza.x < self.x + self.width:
+            if pieza.y + pieza.height > self.y and pieza.y < self.y + self.height:
+                return True
+        return False
+
+

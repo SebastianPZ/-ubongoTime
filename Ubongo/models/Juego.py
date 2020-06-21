@@ -139,6 +139,8 @@ class Juego():
 
     def jugar(self, movimiento):
         for i in range(self.numeroJugadores):
-            self.jugadores[i].moverPieza(movimiento)
+            if not self.jugadores[i].moverPieza(movimiento):
+                continue
+            self.jugadores[i].validarColision()
 
 

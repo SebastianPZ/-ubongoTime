@@ -15,7 +15,7 @@ class Jugador():
 
         if movimiento == self.listaMovimientos[0]:
             self.piezaSeleccionada.y -= 35
-            print(self.piezaSeleccionada.y)
+
         elif movimiento == self.listaMovimientos[1]:
             self.piezaSeleccionada.y += 35
 
@@ -33,6 +33,10 @@ class Jugador():
 
         elif movimiento == self.listaMovimientos[6]:
             self.piezaSeleccionada.flipearPieza()
+        else:
+            return False
+        return True
+
 
 
     def cambiarPiezaSeleccionada(self):
@@ -42,3 +46,5 @@ class Jugador():
         else:
             self.piezaSeleccionada = self.piezas[idPiezaSeleccionada + 1]
 
+    def validarColision(self):
+        print(str(self.puzzleSeleccionado.colisionConPieza(self.piezaSeleccionada)))
