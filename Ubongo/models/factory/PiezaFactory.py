@@ -10,7 +10,6 @@ class PiezaFactory:
     @staticmethod
     def crearPieza(x, y, idPieza, window):
         piezaCreada = Pieza(x, y, idPieza, window)
-        piezaCreada.setForma(recuperarPiezaPorId(idPieza))
         return piezaCreada
 
 

@@ -129,10 +129,10 @@ class Juego():
 
 
     def dibujarJuego(self):
-        self.dibujarMenu()
         self.pantallaJuego.dibujarTablero()
         self.dibujarPuzzles()
         self.dibujarPiezas()
+
 
     def tirarDado(self):
         self.pantallaJuego.dado.tirarDado()

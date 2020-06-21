@@ -3,7 +3,7 @@ from models.componente import Componente
 from models.LecturaPuzzles import recuperarPiezasDePuzzle
 from models.LecturaPuzzles import recuperarPuzzlePorId
 #from models.LecturaPuzzles import recuperarImagenPorIdYDificultad
-from models.utils.CuadradoPuzzle import CuadradoPuzzle
+from models.utils.Cuadrado import Cuadrado
 
 
 class Puzzle(Componente):
@@ -26,12 +26,12 @@ class Puzzle(Componente):
         j = 0
         for fila in self.forma:
             for columna in fila:
-                if columna == 1:
+                if columna == -2:
                     self.dibujoPuzzle.append(None)
-                elif columna == 0:
-                    self.dibujoPuzzle.append(CuadradoPuzzle(
+                elif columna == -1:
+                    self.dibujoPuzzle.append(Cuadrado(
                         self.window, columna,
-                        self.x + j*34, self.y + i*34
+                        self.x + j*35, self.y + i*35
                        ))
                 j += 1
             j = 0
@@ -41,7 +41,7 @@ class Puzzle(Componente):
     def dibujarPuzzle(self):
         for cuadrado in self.dibujoPuzzle:
             if cuadrado != None:
-                cuadrado.dibujarCuadradoPuzzle()
+                cuadrado.dibujarCuadrado('Puzzle')
 
 
     def colisionConPieza(self, pieza):

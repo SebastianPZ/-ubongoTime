@@ -16,13 +16,12 @@ ubongo = Juego(window)
 
 paraTirarDado = 0
 while run:
-
+    window.fill((0, 0, 0))
     window.blit(mesa, (0, 0))
     if ubongo.enMenu:
         ubongo.dibujarMenu()
     if ubongo.enJuego:
         ubongo.dibujarJuego()
-
 
     pygame.display.update()
 
@@ -45,6 +44,7 @@ while run:
 
         if event.type == pygame.KEYDOWN:
             if ubongo.enJuego:
+                window.fill([0, 0, 0])
                 ubongo.jugar(event.key)
 
 
