@@ -65,8 +65,3 @@ def procesarPiezas():
 
     return z
 
-# z = procesarPiezas(piezas)
-#
-# for elemento in z:
-#     print(elemento)
-# print(piezas)

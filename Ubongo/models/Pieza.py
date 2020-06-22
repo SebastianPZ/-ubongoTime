@@ -84,6 +84,8 @@ class Pieza(Componente):
                 matrizResultante[c].append(self.forma[cantidadFilas - f - 1][c])
 
         self.forma = matrizResultante
+        self.height = len(self.forma) * 35
+        self.width = len(self.forma[0]) * 35
         print(self.forma)
 
 

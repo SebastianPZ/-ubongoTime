@@ -1,4 +1,5 @@
 import pygame
+import copy
 import random as random
 from models.menu import Menu
 from models.factory.PuzzleFactory import PuzzleFactory
@@ -54,7 +55,12 @@ class Juego():
                    idPuzzle = random.randint(1,34)
                 puzzleGenerado = PuzzleFactory.crearPuzzle(x, y, idPuzzle, self.window, dificultad)
                 self.jugadores[i].puzzles.append(puzzleGenerado)
-            self.jugadores[i].puzzleSeleccionado = self.jugadores[i].puzzles[0]
+            
+            #####
+            self.jugadores[i].puzzleSeleccionado = copy.copy(self.jugadores[i].puzzles[0])
+            self.jugadores[i]._puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
+
+
 
     def dibujarPuzzles(self):
         for i in range(self.numeroJugadores):
@@ -62,16 +68,20 @@ class Juego():
 
     def asignarPiezas(self):
         pieza = None
+
         for i in range(self.numeroJugadores):
+
             jugador = self.jugadores[i]
             x = jugador.puzzleSeleccionado.x
             codigosPiezas = jugador.puzzleSeleccionado.piezas[self.dado.posicion]
             y = jugador.puzzleSeleccionado.y + jugador.puzzleSeleccionado.height + 35
+
             for j in range(len(codigosPiezas)):
                 if j > 0 and pieza != None:
                     x += pieza.width
                 pieza = PiezaFactory.crearPieza(x, y, codigosPiezas[j], self.window)
                 jugador.piezas.append(pieza)
+
             self.jugadores[i].piezaSeleccionada = self.jugadores[i].piezas[0]
 
     def dibujarPiezas(self):

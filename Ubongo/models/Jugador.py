@@ -7,6 +7,7 @@ class Jugador():
         self.piezaSeleccionada = None
         self.puzzles = []
         self.puzzleSeleccionado = None
+        self._puzzleSeleccionadoForma = None
         self.ficha = None
         self.gemas = None
         self.listaMovimientos = listaMovimientos
@@ -56,38 +57,63 @@ class Jugador():
             self.piezaSeleccionada = self.piezas[idPiezaSeleccionada + 1]
 
     def validarColision(self):
-        if self.puzzleSeleccionado.colisionConPieza(self.piezaSeleccionada):
-            matrizPieza = self.piezaSeleccionada.forma
-            matrizPuzzle = self.puzzleSeleccionado.forma
-            xPuz = self.puzzleSeleccionado.x
-            xPie = self.piezaSeleccionada.x
-            yPuz = self.puzzleSeleccionado.y
-            yPie = self.piezaSeleccionada.y
-            columnaIniPuz = columnaIniPie = 0
-            filaIniPuz = filaIniPie = 0
-            diferenciaX = (xPie - xPuz)//35
-            diferenciaY = (yPuz - yPie)//35
 
-            if diferenciaX < 0:
-                columnaIniPie = abs(diferenciaX)
-            else:
-                columnaIniPuz = abs(diferenciaX)
-            if diferenciaY <= 0:
-                filaIniPuz = abs(diferenciaY)
-            else:
-                filaIniPie = abs(diferenciaY)
+        self.puzzleSeleccionado.forma = copy.deepcopy(self._puzzleSeleccionadoForma)
+        
+        
+        for pieza in self.piezas:
 
-            _filaIniPuz = copy.copy(filaIniPuz)
-            while columnaIniPuz < self.puzzleSeleccionado.width//35 and \
-                columnaIniPuz < self.piezaSeleccionada.width//35 + abs(diferenciaX):
-                filaIniPuz = copy.copy(_filaIniPuz)
-                while filaIniPuz < self.puzzleSeleccionado.height // 35 and \
-                    filaIniPuz < self.piezaSeleccionada.height // 35 + abs(diferenciaY):
-                    if matrizPuzzle[filaIniPuz][columnaIniPuz] != -2:
-                        matrizPuzzle[filaIniPuz][columnaIniPuz] = matrizPieza[filaIniPie][columnaIniPie]
-                    filaIniPie += 1
-                    filaIniPuz += 1
+            if self.puzzleSeleccionado.colisionConPieza(pieza):
 
-                columnaIniPie += 1
-                columnaIniPuz += 1
+                matrizPieza = pieza.forma
+                matrizPuzzle = self.puzzleSeleccionado.forma
+                xPuz = self.puzzleSeleccionado.x
+                xPie = pieza.x
+                yPuz = self.puzzleSeleccionado.y
+                yPie = pieza.y
+                columnaIniPuz = columnaIniPie = 0
+                filaIniPuz = filaIniPie = 0
+                diferenciaX = (xPie - xPuz)//35
+                diferenciaY = (yPuz - yPie)//35
+
+                if diferenciaX < 0:
+                    columnaIniPie = abs(diferenciaX)
+                else:
+                    columnaIniPuz = abs(diferenciaX)
+                if diferenciaY <= 0:
+                    filaIniPuz = abs(diferenciaY)
+                else:
+                    filaIniPie = abs(diferenciaY)
+
+
+                c = copy.copy(columnaIniPuz)
+                f = copy.copy(filaIniPuz)
+                auxfPieza = copy.copy(filaIniPie)
+
+                while c < self.puzzleSeleccionado.width//35 and \
+                    columnaIniPie < pieza.width//35:
+
+                    f = copy.copy(filaIniPuz)
+                    filaIniPie = copy.copy(auxfPieza)
+
+                    while f < self.puzzleSeleccionado.height // 35 and \
+                        filaIniPie < pieza.height // 35:
+
+                        if matrizPieza[filaIniPie][columnaIniPuz] > -1:
+                            if matrizPuzzle[f][c] != -2:
+                                matrizPuzzle[f][c] = matrizPieza[filaIniPie][columnaIniPie]
+
+                        filaIniPie += 1
+                        f += 1
+
+                    columnaIniPie += 1
+                    c += 1
+
+                
+                #validarPuzzleCompleto
+
+    
+                print("Pieza colisionando con el puzzle " + str(pieza.idPieza)  )
+        
+        
         print(self.puzzleSeleccionado.forma)
