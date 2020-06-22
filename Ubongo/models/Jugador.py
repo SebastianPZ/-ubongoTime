@@ -11,6 +11,8 @@ class Jugador():
         self.ficha = None
         self.gemas = None
         self.listaMovimientos = listaMovimientos
+        self.contadorGemas = [0 for _ in range(6)]
+
 
     def moverPieza(self, movimiento):
 
@@ -59,8 +61,7 @@ class Jugador():
     def validarColision(self):
 
         self.puzzleSeleccionado.forma = copy.deepcopy(self._puzzleSeleccionadoForma)
-        
-        
+        contador = 0
         for pieza in self.piezas:
 
             if self.puzzleSeleccionado.colisionConPieza(pieza):
@@ -99,20 +100,28 @@ class Jugador():
                     while f < self.puzzleSeleccionado.height // 35 and \
                         filaIniPie < pieza.height // 35:
 
-                        if matrizPieza[filaIniPie][columnaIniPuz] > -1:
+                        if matrizPieza[filaIniPie][columnaIniPie] > -1:
                             if matrizPuzzle[f][c] != -2:
                                 matrizPuzzle[f][c] = matrizPieza[filaIniPie][columnaIniPie]
-
+                                contador += 1
                         filaIniPie += 1
                         f += 1
 
                     columnaIniPie += 1
                     c += 1
 
+                if contador == self.puzzleSeleccionado.cantEspaciosVacios:
+                    print("Puzzle resuelto")
                 
-                #validarPuzzleCompleto
-
-    
+                # #validarPuzzleCompleto
+                # def verificarPuzzle(puzzle):
+                #     for f in range(len(puzzle)):
+                #         for c in range(len(puzzle[0])):
+                #             if puzzle[f][c] == -1:
+                #                 return False
+                #     else:
+                #         return True
+                #
                 print("Pieza colisionando con el puzzle " + str(pieza.idPieza)  )
         
         

@@ -18,3 +18,5 @@ class BarraJuego(Componente):
     def dibujarBarraJuego(self):
         self.barra = pygame.draw.rect(self.window, (0, 0, 0), (0, 0, self.window.get_rect().width, 180))
         self.window.blit(reloj, (1450, 50))
+
+    

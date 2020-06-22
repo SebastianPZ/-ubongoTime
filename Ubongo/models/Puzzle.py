@@ -12,6 +12,7 @@ class Puzzle(Componente):
         self.window = window
         self.idPuzzle = idPuzzle
         self.dificultad = dificultad
+        self.cantEspaciosVacios = 0
         self.piezas = recuperarPiezasDePuzzle(self.idPuzzle, self.dificultad)
         self.forma = recuperarPuzzlePorId(self.idPuzzle, self.dificultad)
         Componente.__init__(self, x, y, len(self.forma[0]) * 35, len(self.forma) * 35)
@@ -29,6 +30,7 @@ class Puzzle(Componente):
                 if columna == -2:
                     self.dibujoPuzzle.append(None)
                 elif columna == -1:
+                    self.cantEspaciosVacios += 1
                     self.dibujoPuzzle.append(Cuadrado(
                         self.window, columna,
                         self.x + j*35, self.y + i*35
