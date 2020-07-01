@@ -11,7 +11,7 @@ from models.utils.movimientoFichas import definirMovimientosFichas
 from models.Jugador import Jugador
 from models.PantallaJuego import PantallaJuego
 from models.Ficha import Ficha
-
+from models.JugadorComputadora import JugadorComputadora
 class Juego():
 
     def __init__(self, window):
@@ -32,7 +32,10 @@ class Juego():
 
     def crearJugadores(self):
         for id in range(self.numeroJugadores):
-            self.jugadores.append(Jugador(id, definirMovimientosJugador(id), definirMovimientosFichas(id)))
+            if id != self.numeroJugadores - 1:
+                self.jugadores.append(Jugador(id, definirMovimientosJugador(id), definirMovimientosFichas(id)))
+            else:
+                self.jugadores.append(JugadorComputadora(id, [], []))
 
     def asignarPuzzles(self, dificultad):
         idPuzzle = 0
@@ -61,7 +64,7 @@ class Juego():
             
             #####
             self.jugadores[i].puzzleSeleccionado = copy.copy(self.jugadores[i].puzzles[0])
-            self.jugadores[i].puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
+            self.jugadores[i]._puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
 
 
     def asignarFichas(self):
@@ -192,7 +195,7 @@ class Juego():
                 #si ningun jugador ha presionado una tecla, continuar
                 if not self.jugadores[i].moverPieza(movimiento):
                     continue
-                self.jugadores[i].validarColision()
+                self.jugadores[i].validarSolucionPuzzle()
                 #supongo que aqui tambien tengo que ver lo del movimiento de los peones
             else:
                 self.jugadores[i].moverFicha(movimiento)

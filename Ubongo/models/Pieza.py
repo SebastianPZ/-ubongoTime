@@ -62,6 +62,24 @@ class Pieza(Componente):
     def setForma(self, forma):
         self.forma = forma
 
+
+    def piezaSube(self):
+        self.y -= 35
+        self.generarPieza()
+
+    def piezaBaja(self):
+        self.y += 35
+        self.generarPieza()
+
+    def piezaALaIzquierda(self):
+        self.x -= 35
+        self.generarPieza()
+
+    def piezaALaDerecha(self):
+        self.x += 35
+        self.generarPieza()
+
+
     def rotarPieza(self):
         ##############################################
         # invertir columnas y filas
@@ -86,6 +104,7 @@ class Pieza(Componente):
         self.forma = matrizResultante
         self.height = len(self.forma) * 35
         self.width = len(self.forma[0]) * 35
+        self.generarPieza()
         print(self.forma)
 
 
@@ -105,4 +124,5 @@ class Pieza(Componente):
                 matrizResultante[fila][columna], matrizResultante[fila][cantidadColumnas - 1] \
                     = matrizResultante[fila][cantidadColumnas - 1],  matrizResultante[fila][columna]
         self.forma = matrizResultante
+        self.generarPieza()
         print(self.forma)

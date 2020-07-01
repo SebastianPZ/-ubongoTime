@@ -16,6 +16,7 @@ class Jugador():
         self.contadorGemas = [0 for _ in range(6)]
         self.movimientoFicha = False
 
+
     def moverFicha(self, movimiento):
         if movimiento == self.listaMovimientos[0]:
             self.ficha.y -= 35
@@ -28,31 +29,26 @@ class Jugador():
     def moverPieza(self, movimiento):
 
         if movimiento == self.listaMovimientos[0]:
-            self.piezaSeleccionada.y -= 35
-            self.piezaSeleccionada.generarPieza()
+            self.piezaSeleccionada.piezaSube()
 
         elif movimiento == self.listaMovimientos[1]:
-            self.piezaSeleccionada.y += 35
-            self.piezaSeleccionada.generarPieza()
+            self.piezaSeleccionada.piezaBaja()
 
         elif movimiento == self.listaMovimientos[2]:
-            self.piezaSeleccionada.x -= 35
-            self.piezaSeleccionada.generarPieza()
+            self.piezaSeleccionada.piezaALaIzquierda()
 
         elif movimiento == self.listaMovimientos[3]:
-            self.piezaSeleccionada.x += 35
-            self.piezaSeleccionada.generarPieza()
+            self.piezaSeleccionada.piezaALaDerecha()
 
         elif movimiento == self.listaMovimientos[4]:
             self.cambiarPiezaSeleccionada()
 
         elif movimiento == self.listaMovimientos[5]:
             self.piezaSeleccionada.rotarPieza()
-            self.piezaSeleccionada.generarPieza()
 
         elif movimiento == self.listaMovimientos[6]:
             self.piezaSeleccionada.flipearPieza()
-            self.piezaSeleccionada.generarPieza()
+
         else:
             return False
         print("Puzzle #" + str(self.puzzleSeleccionado.idPuzzle))
@@ -69,7 +65,7 @@ class Jugador():
         else:
             self.piezaSeleccionada = self.piezas[idPiezaSeleccionada + 1]
 
-    def validarColision(self):
+    def validarSolucionPuzzle(self):
 
         self.puzzleSeleccionado.forma = copy.deepcopy(self._puzzleSeleccionadoForma)
         contador = 0
@@ -125,13 +121,13 @@ class Jugador():
                 if contador == self.puzzleSeleccionado.cantEspaciosVacios:
                     self.movimientoFicha = True
                     self.puzzles.pop()
-                    print("Puzzle resuelto")
+                    return True
+        return False
                 
-                
-                print("Pieza colisionando con el puzzle " + str(pieza.idPieza)  )
+                #print("Pieza colisionando con el puzzle " + str(pieza.idPieza)  )
         
         
-        print(self.puzzleSeleccionado.forma)
+        #print(self.puzzleSeleccionado.forma)
 
     def moverFicha(self, movimiento):
         if movimiento == self.movimientoFichas[0]:
