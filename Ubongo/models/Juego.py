@@ -52,7 +52,7 @@ class Juego():
                 x += espaciado
             for _ in range(9):
                 if dificultad == "Normal":
-                   idPuzzle = 1#random.randint(1,8)
+                   idPuzzle = random.randint(1,8)
                 elif dificultad == "Difícil":
                    idPuzzle = random.randint(1,34)
                 puzzleGenerado = PuzzleFactory.crearPuzzle(x, y, idPuzzle, self.window, dificultad)
@@ -60,7 +60,7 @@ class Juego():
             
             #####
             self.jugadores[i].puzzleSeleccionado = copy.copy(self.jugadores[i].puzzles[0])
-            self.jugadores[i]._puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
+            self.jugadores[i].puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
 
 
     def asignarFichas(self):
@@ -75,8 +75,7 @@ class Juego():
         }
 
         for i in range(self.numeroJugadores):
-            self.jugadores[i].ficha = Ficha(x, y, diameter, self.window, switcher.get("color" + str(i + 1)),
-                                            i)
+            self.jugadores[i].ficha = Ficha(x, y, diameter, self.window, switcher.get("color" + str(i + 1)), i)
             x += diameter
             y += diameter+5
 
@@ -166,7 +165,7 @@ class Juego():
         self.dibujarPuzzles()
         self.dibujarPiezas()
         self.dibujarFichas()
-            
+
 
     def tirarDado(self):
         self.pantallaJuego.dado.tirarDado()
