@@ -14,7 +14,16 @@ class Jugador():
         self.listaMovimientos = listaMovimientos
         self.movimientoFichas = movimientoFichas
         self.contadorGemas = [0 for _ in range(6)]
+        self.movimientoFicha = False
 
+    def moverFicha(self, movimiento):
+        if movimiento == self.listaMovimientos[0]:
+            self.ficha.y -= 35
+            #self.piezaSeleccionada.generarPieza()
+
+        elif movimiento == self.listaMovimientos[1]:
+            self.ficha.y += 35
+            #self.piezaSeleccionada.generarPieza()
 
     def moverPieza(self, movimiento):
 
@@ -112,18 +121,13 @@ class Jugador():
                     columnaIniPie += 1
                     c += 1
 
+                #validar puzzle completo
                 if contador == self.puzzleSeleccionado.cantEspaciosVacios:
+                    self.movimientoFicha = True
+                    self.puzzles.pop()
                     print("Puzzle resuelto")
                 
-                # #validarPuzzleCompleto
-                # def verificarPuzzle(puzzle):
-                #     for f in range(len(puzzle)):
-                #         for c in range(len(puzzle[0])):
-                #             if puzzle[f][c] == -1:
-                #                 return False
-                #     else:
-                #         return True
-                #
+                
                 print("Pieza colisionando con el puzzle " + str(pieza.idPieza)  )
         
         

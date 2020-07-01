@@ -28,6 +28,7 @@ class Juego():
         self.numeroJugadores = 0
         self.enJuego = False
         self.enMenu = True
+        self.enRonda = False
 
     def crearJugadores(self):
         for id in range(self.numeroJugadores):
@@ -118,6 +119,7 @@ class Juego():
     def hoverBotonesMenu(self, pos):
         self.menu.hoverBotonesMenu(pos)
 
+    #aqui esta el monstruo
     def transicionarMenu(self, posicionMouse):
         if self.menu.enPantallaInicio:
             if self.menu.botonIniciar.isOver(posicionMouse):
@@ -129,6 +131,7 @@ class Juego():
 
         elif self.menu.enJugadores:
             if self.dificultad != "":
+
                 if self.menu.botonUnJugador.isOver(posicionMouse):
                     self.numeroJugadores = 2
                 elif self.menu.botonDosJugadores.isOver(posicionMouse):
@@ -136,6 +139,7 @@ class Juego():
                 elif self.menu.botonTresJugadores.isOver(posicionMouse):
                     self.numeroJugadores = 4
                 if self.menu.botonUnJugador.isOver(posicionMouse) or self.menu.botonDosJugadores.isOver(posicionMouse) or self.menu.botonTresJugadores.isOver(posicionMouse):
+                    
                     self.menu.enJugadores = False
                     self.crearJugadores()
                     self.asignarFichas()
@@ -143,6 +147,7 @@ class Juego():
                     self.asignarPiezas()
                     self.enJuego = True
                     self.enMenu = False
+
             if self.menu.botonRegresar.isOver(posicionMouse):
                 self.menu.enPantallaInicio = True
                 self.menu.enJugadores = False
@@ -170,10 +175,47 @@ class Juego():
     def tirarDado(self):
         self.pantallaJuego.dado.tirarDado()
 
-    def jugar(self, movimiento):
+    #en realidad lo que hace es ejecutar una accion disparada con alguna tecla  
+    def ejecutarAccion(self, movimiento):
+        
+        #debo verificar que tecla es, para saber que accion se realizara
+
+        #la ronda no esta iniciada y se presiono la tecla de iniciar?:
+        #  iniciarRonda
+
+        if self.enRonda == False and movimiento == pygame.K_CAPSLOCK:
+            self.iniciarRonda()
+        
         for i in range(self.numeroJugadores):
-            if not self.jugadores[i].moverPieza(movimiento):
-                continue
-            self.jugadores[i].validarColision()
+
+            if self.jugadores[i].movimientoFicha == False:
+                #si ningun jugador ha presionado una tecla, continuar
+                if not self.jugadores[i].moverPieza(movimiento):
+                    continue
+                self.jugadores[i].validarColision()
+                #supongo que aqui tambien tengo que ver lo del movimiento de los peones
+            else:
+                self.jugadores[i].moverFicha(movimiento)
+
+    def iniciarRonda(self):
+
+        self.enRonda = True
+        #       tirar dado
+        self.tirarDado()
+
+        #       obtener el puzzle de encima del monticulo
+        for i in range(self.numeroJugadores):
+            self.jugadores[i].puzzleSeleccionado = copy.copy(self.jugadores[i].puzzles[0])
+            self.jugadores[i]._puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
+
+        #       obtener las piezas de la cartilla segun el dado
+        self.asignarPiezas()
+
+
+        #       resolver (con tiempo)
+        #       el que ya haya completado su puzzle, podrá mover su ficha X espacios
+        #       mover fichaJugador
+        #       comenzar nueva ronda
+        return
 
 
