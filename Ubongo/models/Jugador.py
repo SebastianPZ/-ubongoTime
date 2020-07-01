@@ -69,6 +69,7 @@ class Jugador():
 
         self.puzzleSeleccionado.forma = copy.deepcopy(self._puzzleSeleccionadoForma)
         contador = 0
+        
         for pieza in self.piezas:
 
             if self.puzzleSeleccionado.colisionConPieza(pieza):

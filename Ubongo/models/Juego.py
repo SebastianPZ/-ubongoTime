@@ -185,11 +185,10 @@ class Juego():
 
         #la ronda no esta iniciada y se presiono la tecla de iniciar?:
         #  iniciarRonda
-
         if self.enRonda == False and movimiento == pygame.K_CAPSLOCK:
             self.iniciarRonda()
         
-        for i in range(self.numeroJugadores):
+        for i in range(self.numeroJugadores - 1):
 
             if self.jugadores[i].movimientoFicha == False:
                 #si ningun jugador ha presionado una tecla, continuar
@@ -199,6 +198,10 @@ class Juego():
                 #supongo que aqui tambien tengo que ver lo del movimiento de los peones
             else:
                 self.jugadores[i].moverFicha(movimiento)
+        else:
+            #resolver puzzle con jugador bot
+            self.jugadores[self.numeroJugadores -1].resolverPuzzle()
+            pass
 
     def iniciarRonda(self):
 
