@@ -7,8 +7,10 @@ from models.factory.PiezaFactory import PiezaFactory
 from models.Dado import Dado
 from models.Puzzle import Puzzle
 from models.utils.movimientosJugador import definirMovimientosJugador
+from models.utils.movimientoFichas import definirMovimientosFichas
 from models.Jugador import Jugador
 from models.PantallaJuego import PantallaJuego
+from models.Ficha import Ficha
 
 class Juego():
 
@@ -29,7 +31,7 @@ class Juego():
 
     def crearJugadores(self):
         for id in range(self.numeroJugadores):
-            self.jugadores.append(Jugador(id, definirMovimientosJugador(id)))
+            self.jugadores.append(Jugador(id, definirMovimientosJugador(id), definirMovimientosFichas(id)))
 
     def asignarPuzzles(self, dificultad):
         idPuzzle = 0
@@ -61,6 +63,26 @@ class Juego():
             self.jugadores[i]._puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
 
 
+    def asignarFichas(self):
+        x = 482
+        y = 282
+        diameter = 30
+        switcher = {
+            "color1": (196, 255, 14),
+            "color2": (140, 255, 251),
+            "color3": (140, 125, 251),
+            "color4": (140, 255, 125)
+        }
+
+        for i in range(self.numeroJugadores):
+            self.jugadores[i].ficha = Ficha(x, y, diameter, self.window, switcher.get("color" + str(i + 1)),
+                                            i)
+            x += diameter
+            y += diameter+5
+
+    def dibujarFichas(self):
+        for i in range(self.numeroJugadores):
+            self.jugadores[i].ficha.dibujarFicha()
 
     def dibujarPuzzles(self):
         for i in range(self.numeroJugadores):
@@ -117,6 +139,7 @@ class Juego():
                 if self.menu.botonUnJugador.isOver(posicionMouse) or self.menu.botonDosJugadores.isOver(posicionMouse) or self.menu.botonTresJugadores.isOver(posicionMouse):
                     self.menu.enJugadores = False
                     self.crearJugadores()
+                    self.asignarFichas()
                     self.asignarPuzzles(self.dificultad)
                     self.asignarPiezas()
                     self.enJuego = True
@@ -142,7 +165,8 @@ class Juego():
         self.pantallaJuego.dibujarTablero()
         self.dibujarPuzzles()
         self.dibujarPiezas()
-
+        self.dibujarFichas()
+            
 
     def tirarDado(self):
         self.pantallaJuego.dado.tirarDado()

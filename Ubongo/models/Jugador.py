@@ -1,7 +1,8 @@
 import pygame
 import copy
+
 class Jugador():
-    def __init__(self, id, listaMovimientos):
+    def __init__(self, id, listaMovimientos, movimientoFichas):
         self.id = id
         self.piezas = []
         self.piezaSeleccionada = None
@@ -11,6 +12,7 @@ class Jugador():
         self.ficha = None
         self.gemas = None
         self.listaMovimientos = listaMovimientos
+        self.movimientoFichas = movimientoFichas
         self.contadorGemas = [0 for _ in range(6)]
 
 
@@ -126,3 +128,12 @@ class Jugador():
         
         
         print(self.puzzleSeleccionado.forma)
+
+    def moverFicha(self, movimiento):
+        if movimiento == self.movimientoFichas[0]:
+            self.ficha.y -= 35
+
+        elif movimiento == self.movimientoFichas[1]:
+            self.ficha.y += 35
+
+
