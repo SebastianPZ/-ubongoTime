@@ -24,6 +24,7 @@ class Menu(Componente):
         self.botonDificultadDificil = Boton((0, 0, 0), (255, 255, 255), self.botonDificultadNormal.x, self.botonDificultadNormal.y + self.botonDificultadNormal.height + 40, 250, 70, "Difícil (4 piezas)")
         self.botonRegresar = Boton((0, 0, 0), (255, 255, 255), 100, 100 , 250, 70, "Regresar")
         self.enPantallaInicio = True
+        #enJugadores: variable que determina si estas en la pantalla de elegir jugadores o no
         self.enJugadores = False
         self.enDificultad = False
 

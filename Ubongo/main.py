@@ -15,17 +15,23 @@ menu = Menu(window)
 ubongo = Juego(window)
 
 
+#kejestooo?
 paraTirarDado = 0
+
 while run:
     window.fill((0, 0, 0))
     window.blit(mesa, (0, 0))
+
     if ubongo.enMenu:
         ubongo.dibujarMenu()
-    if ubongo.enJuego:
+    elif ubongo.enJuego:
         ubongo.dibujarJuego()
 
     pygame.display.update()
 
+    
+
+    #eventos
     for event in pygame.event.get():
 
         posicionMouse = pygame.mouse.get_pos()
@@ -35,18 +41,21 @@ while run:
             pygame.quit()
             quit()
 
+        #animaciones
         if event.type == pygame.MOUSEMOTION:
             if ubongo.enMenu:
                 ubongo.hoverBotonesMenu(posicionMouse)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if ubongo.enMenu:
+                #aqui solo sirve para una ronda
                 ubongo.transicionarMenu(posicionMouse)
 
+        #teclas
         if event.type == pygame.KEYDOWN:
             if ubongo.enJuego:
                 window.fill([0, 0, 0])
-                ubongo.jugar(event.key)
+                ubongo.ejecutarAccion(event.key)
 
 
 
