@@ -121,8 +121,28 @@ class Pieza(Componente):
 
         for fila in range(cantidadFilas):
             for columna in range(cantidadColumnas//2):
-                matrizResultante[fila][columna], matrizResultante[fila][cantidadColumnas - 1] \
-                    = matrizResultante[fila][cantidadColumnas - 1],  matrizResultante[fila][columna]
+                matrizResultante[fila][columna], matrizResultante[fila][cantidadColumnas - columna - 1] \
+                    = matrizResultante[fila][cantidadColumnas - columna - 1],  matrizResultante[fila][columna]
         self.forma = matrizResultante
         self.generarPieza()
         print(self.forma)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

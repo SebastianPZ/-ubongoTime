@@ -12,13 +12,13 @@ from models.Jugador import Jugador
 from models.PantallaJuego import PantallaJuego
 from models.Ficha import Ficha
 from models.JugadorComputadora import JugadorComputadora
+
 class Juego():
 
     def __init__(self, window):
         self.window = window
         self.menu = Menu(window)
         self.pantallaJuego = PantallaJuego(window)
-        self.tablero = None
         self.jugadores = []
         self.numeroRonda = 0
         self.dado = Dado(300, 300, 100, 100, self.window)
@@ -29,13 +29,17 @@ class Juego():
         self.enJuego = False
         self.enMenu = True
         self.enRonda = False
+        self.finRonda = False
+        self.limiteFilasPorJugadorEnRonda = [0 for _ in range(4)]
+        self.numeroGanadores = 0
+        self.maximoMovimientosFichas = 0
 
     def crearJugadores(self):
         for id in range(self.numeroJugadores):
             if id != self.numeroJugadores - 1:
                 self.jugadores.append(Jugador(id, definirMovimientosJugador(id), definirMovimientosFichas(id)))
             else:
-                self.jugadores.append(JugadorComputadora(id, [], []))
+                self.jugadores.append(JugadorComputadora(id, definirMovimientosJugador(id), definirMovimientosFichas(id)))
 
     def asignarPuzzles(self, dificultad):
         idPuzzle = 0
@@ -79,7 +83,7 @@ class Juego():
         }
 
         for i in range(self.numeroJugadores):
-            self.jugadores[i].ficha = Ficha(x, y, diameter, self.window, switcher.get("color" + str(i + 1)), i)
+            self.jugadores[i].ficha = Ficha(x, y, diameter, self.window, switcher.get("color" + str(i + 1)), i, i)
             x += diameter
             y += diameter+5
 
@@ -137,10 +141,13 @@ class Juego():
 
                 if self.menu.botonUnJugador.isOver(posicionMouse):
                     self.numeroJugadores = 2
+                    self.maximoMovimientosFichas = 2
                 elif self.menu.botonDosJugadores.isOver(posicionMouse):
                     self.numeroJugadores = 3
+                    self.maximoMovimientosFichas = 3
                 elif self.menu.botonTresJugadores.isOver(posicionMouse):
                     self.numeroJugadores = 4
+                    self.maximoMovimientosFichas = 4
                 if self.menu.botonUnJugador.isOver(posicionMouse) or self.menu.botonDosJugadores.isOver(posicionMouse) or self.menu.botonTresJugadores.isOver(posicionMouse):
                     
                     self.menu.enJugadores = False
@@ -195,10 +202,13 @@ class Juego():
                 #si ningun jugador ha presionado una tecla, continuar
                 if not self.jugadores[i].moverPieza(movimiento):
                     continue
-                self.jugadores[i].validarSolucionPuzzle()
+                if self.jugadores[i].validarSolucionPuzzle():
+                    #Límite de acuerdo al jugador conforme van ganando
+                    self.limiteFilasPorJugadorEnRonda[i] = self.maximoMovimientosFichas - self.numeroGanadores
+                    self.numeroGanadores += 1
                 #supongo que aqui tambien tengo que ver lo del movimiento de los peones
             else:
-                self.jugadores[i].moverFicha(movimiento)
+                self.jugadores[i].moverFicha(movimiento, self.limiteFilasPorJugadorEnRonda[i], self.pantallaJuego.tablero)
 
     def iniciarRonda(self):
 

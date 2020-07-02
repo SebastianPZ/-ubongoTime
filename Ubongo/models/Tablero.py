@@ -22,7 +22,8 @@ class Tablero(Componente):
         self.window.blit(tablero, (self.x, self.y))
         for fila in range(6):
             for columna in range(12):
-                self.matrizGemas[fila][columna].dibujarGema()
+                if not self.matrizGemas[fila][columna].recogida:
+                    self.matrizGemas[fila][columna].dibujarGema()
 
     def generarGemas(self):
         x = self.x + 174

@@ -15,16 +15,10 @@ class Jugador():
         self.movimientoFichas = movimientoFichas
         self.contadorGemas = [0 for _ in range(6)]
         self.movimientoFicha = False
+        self.contadorMovimientos = 0
 
 
-    def moverFicha(self, movimiento):
-        if movimiento == self.listaMovimientos[0]:
-            self.ficha.y -= 35
-            #self.piezaSeleccionada.generarPieza()
 
-        elif movimiento == self.listaMovimientos[1]:
-            self.ficha.y += 35
-            #self.piezaSeleccionada.generarPieza()
 
     def moverPieza(self, movimiento):
 
@@ -108,7 +102,7 @@ class Jugador():
                         filaIniPie < pieza.height // 35:
 
                         if matrizPieza[filaIniPie][columnaIniPie] > -1:
-                            if matrizPuzzle[f][c] != -2:
+                            if matrizPuzzle[f][c] != -2 and not matrizPuzzle[f][c] > -1:
                                 matrizPuzzle[f][c] = matrizPieza[filaIniPie][columnaIniPie]
                                 contador += 1
                         filaIniPie += 1
@@ -121,6 +115,7 @@ class Jugador():
                 if contador == self.puzzleSeleccionado.cantEspaciosVacios:
                     self.movimientoFicha = True
                     self.puzzles.pop()
+                    print("Puzzle resuleto")
                     return True
         return False
                 
@@ -129,11 +124,43 @@ class Jugador():
         
         #print(self.puzzleSeleccionado.forma)
 
-    def moverFicha(self, movimiento):
+    def moverFicha(self, movimiento, limiteFilas, tablero):
+
         if movimiento == self.movimientoFichas[0]:
-            self.ficha.y -= 35
+            if self.ficha.filaVariable - 1 < 0 or self.contadorMovimientos + 1 > limiteFilas:
+                return
+            if self.ficha.filaVariable > self.ficha.filaInicial:
+                self.contadorMovimientos -= 1
+            elif self.ficha.filaVariable <= self.ficha.filaInicial:
+                self.contadorMovimientos += 1
+            else:
+                self.ficha.y -= 35
+                self.ficha.filaVariable -= 1
+
 
         elif movimiento == self.movimientoFichas[1]:
+            if self.ficha.filaVariable + 1 > 5 or self.contadorMovimientos + 1 > limiteFilas:
+                return
+            if self.ficha.filaVariable < self.ficha.filaInicial:
+                self.contadorMovimientos -= 1
+            elif self.ficha.filaVariable >= self.ficha.filaInicial:
+                self.contadorMovimientos += 1
+
             self.ficha.y += 35
+            self.ficha.filaVariable += 1
+
+        elif movimiento == self.movimientoFichas[2]:
+            self.cogerGemas(tablero)
+
+    def cogerGemas(self, tablero):
+        for i in range(2):
+            gema = tablero.matrizGemas[self.ficha.filaVariable][i]
+            tablero.matrizGemas[self.ficha.filaVariable][i].recogida = True
+            self.contadorGemas[gema.idGema] += 1
+
+
+
+
+
 
 

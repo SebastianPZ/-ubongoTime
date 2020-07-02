@@ -3,14 +3,14 @@ import pygame
 
 class Ficha(Componente):
 
-    def __init__(self, x, y, diameter, window, color, idJugador):
+    def __init__(self, x, y, diameter, window, color, idJugador, fila):
         Componente.__init__(self, x, y, diameter, diameter)
         self.window = window
         self.color = color
         self.idJugador = idJugador
         self.colorTexto = (0, 0, 0)
-
-
+        self.filaInicial = fila
+        self.filaVariable = fila
     def dibujarFicha(self):
 
         pygame.draw.circle(self.window, self.color,

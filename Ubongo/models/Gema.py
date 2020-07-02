@@ -9,6 +9,7 @@ class Gema(Componente):
         self.idGema = idGema
         self.gemaImg = pygame.image.load('assets\\Gemas\\Gema ' + str(idGema) + '.png')
         self.gemaImgEscalada = pygame.transform.scale(self.gemaImg, (self.width, self.height))
+        self.recogida = False
 
     def dibujarGema(self):
         self.window.blit(self.gemaImgEscalada, (self.x, self.y))
