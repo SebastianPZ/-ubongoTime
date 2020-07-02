@@ -13,6 +13,9 @@ class Temporizador(Componente):
     def correrTiempo(self):
         self.segundos -= 1
 
+    def reiniciarTiempo(self):
+        self.segundos = 60
+
     def dibujarTemporizador(self):
         self.window.blit(self.imagenReescalada, (self.x, self.y))
 

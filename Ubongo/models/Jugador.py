@@ -16,7 +16,7 @@ class Jugador():
         self.contadorGemas = [0 for _ in range(6)]
         self.movimientoFicha = False
         self.contadorMovimientos = 0
-
+        self.gemasRecolectadas = False
 
 
 
@@ -63,6 +63,7 @@ class Jugador():
 
         self.puzzleSeleccionado.forma = copy.deepcopy(self._puzzleSeleccionadoForma)
         contador = 0
+        
         for pieza in self.piezas:
 
             if self.puzzleSeleccionado.colisionConPieza(pieza):
@@ -149,14 +150,15 @@ class Jugador():
             self.ficha.y += 35
             self.ficha.filaVariable += 1
 
-        elif movimiento == self.movimientoFichas[2]:
+        elif movimiento == self.movimientoFichas[2] and not self.gemasRecolectadas:
             self.cogerGemas(tablero)
+            self.gemasRecolectadas = True
 
     def cogerGemas(self, tablero):
-        for i in range(2):
-            gema = tablero.matrizGemas[self.ficha.filaVariable][i]
-            tablero.matrizGemas[self.ficha.filaVariable][i].recogida = True
-            self.contadorGemas[gema.idGema] += 1
+        gemas = tablero.matrizGemas[self.ficha.filaVariable][:2]
+        tablero.matrizGemas[self.ficha.filaVariable] = tablero.matrizGemas[self.ficha.filaVariable][2:]
+        self.contadorGemas[gemas[0].idGema] += 1
+        self.contadorGemas[gemas[1].idGema] += 1
 
 
 

@@ -29,8 +29,6 @@ while run:
 
     pygame.display.update()
 
-    
-
     #eventos
     for event in pygame.event.get():
 

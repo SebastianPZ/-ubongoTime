@@ -18,7 +18,7 @@ class Juego():
     def __init__(self, window):
         self.window = window
         self.menu = Menu(window)
-        self.pantallaJuego = PantallaJuego(window)
+        self.pantallaJuego = None
         self.jugadores = []
         self.numeroRonda = 0
         self.dado = Dado(300, 300, 100, 100, self.window)
@@ -33,6 +33,7 @@ class Juego():
         self.limiteFilasPorJugadorEnRonda = [0 for _ in range(4)]
         self.numeroGanadores = 0
         self.maximoMovimientosFichas = 0
+        self.tiempoAuxiliar = 0
 
     def crearJugadores(self):
         for id in range(self.numeroJugadores):
@@ -40,6 +41,7 @@ class Juego():
                 self.jugadores.append(Jugador(id, definirMovimientosJugador(id), definirMovimientosFichas(id)))
             else:
                 self.jugadores.append(JugadorComputadora(id, definirMovimientosJugador(id), definirMovimientosFichas(id)))
+        self.pantallaJuego = PantallaJuego(self.window, self.jugadores)
 
     def asignarPuzzles(self, dificultad):
         idPuzzle = 0
@@ -67,8 +69,8 @@ class Juego():
                 self.jugadores[i].puzzles.append(puzzleGenerado)
             
             #####
-            self.jugadores[i].puzzleSeleccionado = copy.copy(self.jugadores[i].puzzles[0])
-            self.jugadores[i]._puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
+            # self.jugadores[i].puzzleSeleccionado = copy.copy(self.jugadores[i].puzzles[0])
+            # self.jugadores[i]._puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
 
 
     def asignarFichas(self):
@@ -93,7 +95,7 @@ class Juego():
 
     def dibujarPuzzles(self):
         for i in range(self.numeroJugadores):
-            self.jugadores[i].puzzles[self.numeroRonda].dibujarPuzzle()
+            self.jugadores[i].puzzleSeleccionado.dibujarPuzzle()
 
     def asignarPiezas(self):
         pieza = None
@@ -101,6 +103,7 @@ class Juego():
         for i in range(self.numeroJugadores):
 
             jugador = self.jugadores[i]
+            jugador.piezas = []
             x = jugador.puzzleSeleccionado.x
             codigosPiezas = jugador.puzzleSeleccionado.piezas[self.dado.posicion]
             y = jugador.puzzleSeleccionado.y + jugador.puzzleSeleccionado.height + 35
@@ -149,14 +152,14 @@ class Juego():
                     self.numeroJugadores = 4
                     self.maximoMovimientosFichas = 4
                 if self.menu.botonUnJugador.isOver(posicionMouse) or self.menu.botonDosJugadores.isOver(posicionMouse) or self.menu.botonTresJugadores.isOver(posicionMouse):
-                    
                     self.menu.enJugadores = False
                     self.crearJugadores()
                     self.asignarFichas()
                     self.asignarPuzzles(self.dificultad)
-                    self.asignarPiezas()
-                    self.enJuego = True
                     self.enMenu = False
+                    self.numeroRonda += 1
+                    self.enJuego = True
+                    self.iniciarRonda()
 
             if self.menu.botonRegresar.isOver(posicionMouse):
                 self.menu.enPantallaInicio = True
@@ -176,10 +179,23 @@ class Juego():
 
 
     def dibujarJuego(self):
+        if self.enRonda:
+            self.tiempoAuxiliar += 1
+            if self.tiempoAuxiliar == 15:
+                self.tiempoAuxiliar = 0
+                self.pantallaJuego.barraJuego.temporizador.correrTiempo()
+            if self.pantallaJuego.barraJuego.temporizador.segundos == 0:
+                self.enRonda = False
+                self.tiempoAuxiliar = 0
+        else:
+            self.numeroRonda += 1
+            self.iniciarRonda()
+
         self.pantallaJuego.dibujarTablero()
         self.dibujarPuzzles()
         self.dibujarPiezas()
         self.dibujarFichas()
+
 
 
     def tirarDado(self):
@@ -192,33 +208,34 @@ class Juego():
 
         #la ronda no esta iniciada y se presiono la tecla de iniciar?:
         #  iniciarRonda
+        if self.pantallaJuego.barraJuego.temporizador.segundos > 0:
 
-        if self.enRonda == False and movimiento == pygame.K_CAPSLOCK:
-            self.iniciarRonda()
-        
-        for i in range(self.numeroJugadores):
+            for i in range(self.numeroJugadores - 1):
 
-            if self.jugadores[i].movimientoFicha == False:
-                #si ningun jugador ha presionado una tecla, continuar
-                if not self.jugadores[i].moverPieza(movimiento):
-                    continue
-                if self.jugadores[i].validarSolucionPuzzle():
-                    #Límite de acuerdo al jugador conforme van ganando
-                    self.limiteFilasPorJugadorEnRonda[i] = self.maximoMovimientosFichas - self.numeroGanadores
-                    self.numeroGanadores += 1
-                #supongo que aqui tambien tengo que ver lo del movimiento de los peones
-            else:
-                self.jugadores[i].moverFicha(movimiento, self.limiteFilasPorJugadorEnRonda[i], self.pantallaJuego.tablero)
+                if self.jugadores[i].movimientoFicha == False:
+                    #si ningun jugador ha presionado una tecla, continuar
+                    if not self.jugadores[i].moverPieza(movimiento):
+                        continue
+                    if self.jugadores[i].validarSolucionPuzzle():
+                        #Límite de acuerdo al jugador conforme van ganando
+                        self.limiteFilasPorJugadorEnRonda[i] = self.maximoMovimientosFichas - self.numeroGanadores
+                        self.numeroGanadores += 1
+                    #supongo que aqui tambien tengo que ver lo del movimiento de los peones
+                else:
+                    self.jugadores[i].moverFicha(movimiento, self.limiteFilasPorJugadorEnRonda[i], self.pantallaJuego.tablero)
+
+
 
     def iniciarRonda(self):
-
+        self.pantallaJuego.barraJuego.temporizador.reiniciarTiempo()
         self.enRonda = True
         #       tirar dado
         self.tirarDado()
 
         #       obtener el puzzle de encima del monticulo
+
         for i in range(self.numeroJugadores):
-            self.jugadores[i].puzzleSeleccionado = copy.copy(self.jugadores[i].puzzles[0])
+            self.jugadores[i].puzzleSeleccionado = copy.copy(self.jugadores[i].puzzles[self.numeroRonda - 1])
             self.jugadores[i]._puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
 
         #       obtener las piezas de la cartilla segun el dado
