@@ -34,6 +34,7 @@ class Juego():
         self.numeroGanadores = 0
         self.maximoMovimientosFichas = 0
         self.tiempoAuxiliar = 0
+        self.tiempoAleatorio = 0
 
     def crearJugadores(self):
         for id in range(self.numeroJugadores):
@@ -181,7 +182,7 @@ class Juego():
     def dibujarJuego(self):
         if self.enRonda:
             self.tiempoAuxiliar += 1
-            if self.tiempoAuxiliar == 15:
+            if self.tiempoAuxiliar == 7:
                 self.tiempoAuxiliar = 0
                 self.pantallaJuego.barraJuego.temporizador.correrTiempo()
             if self.pantallaJuego.barraJuego.temporizador.segundos == 0:
@@ -224,6 +225,9 @@ class Juego():
                 else:
                     self.jugadores[i].moverFicha(movimiento, self.limiteFilasPorJugadorEnRonda[i], self.pantallaJuego.tablero)
 
+            if self.pantallaJuego.barraJuego.temporizador.segundos == self.tiempoAleatorio:
+                self.jugadores[-1].resolverPuzzle()
+
 
 
     def iniciarRonda(self):
@@ -231,7 +235,7 @@ class Juego():
         self.enRonda = True
         #       tirar dado
         self.tirarDado()
-
+        self.tiempoAleatorio = random.randint(40, 50)
         #       obtener el puzzle de encima del monticulo
 
         for i in range(self.numeroJugadores):
