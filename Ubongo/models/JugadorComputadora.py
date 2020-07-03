@@ -264,4 +264,4 @@ class JugadorComputadora(Jugador):
             for j in range(len(self.piezas[i].dibujoPieza)):
                 self.piezas[i].dibujoPieza[j] = None
 
-    
+

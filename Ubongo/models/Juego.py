@@ -200,6 +200,7 @@ class Juego():
         if self.pantallaJuego.barraJuego.temporizador.segundos == self.tiempoAleatorio\
                 and self.tiempoAuxiliar == 1:
             self.jugadores[-1].colocarPiezas(self.window)
+            self.jugadores[-1].cogerGemas(self.pantallaJuego.tablero)
 
     def tirarDado(self):
         self.pantallaJuego.dado.tirarDado()
@@ -236,7 +237,7 @@ class Juego():
         self.enRonda = True
         #       tirar dado
         self.tirarDado()
-        self.tiempoAleatorio = 10#random.randint(40, 50)
+        self.tiempoAleatorio = 50#random.randint(40, 50)
         #       obtener el puzzle de encima del monticulo
 
         for i in range(self.numeroJugadores):
