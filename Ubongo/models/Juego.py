@@ -63,7 +63,7 @@ class Juego():
                 x += espaciado
             for _ in range(9):
                 if dificultad == "Normal":
-                   idPuzzle = 3#random.randint(1,8)
+                   idPuzzle = random.randint(1,3)
                 elif dificultad == "Difícil":
                    idPuzzle = random.randint(1,34)
                 puzzleGenerado = PuzzleFactory.crearPuzzle(x, y, idPuzzle, self.window, dificultad)
@@ -197,10 +197,9 @@ class Juego():
         self.dibujarPiezas()
         self.dibujarFichas()
 
-        # if self.pantallaJuego.barraJuego.temporizador.segundos == self.tiempoAleatorio\
-        #         and self.tiempoAuxiliar == 1:
-        #     self.jugadores[-1].resolverPuzzle()
-
+        if self.pantallaJuego.barraJuego.temporizador.segundos == self.tiempoAleatorio\
+                and self.tiempoAuxiliar == 1:
+            self.jugadores[-1].colocarPiezas(self.window)
 
     def tirarDado(self):
         self.pantallaJuego.dado.tirarDado()
@@ -237,7 +236,7 @@ class Juego():
         self.enRonda = True
         #       tirar dado
         self.tirarDado()
-        self.tiempoAleatorio = random.randint(40, 50)
+        self.tiempoAleatorio = 10#random.randint(40, 50)
         #       obtener el puzzle de encima del monticulo
 
         for i in range(self.numeroJugadores):

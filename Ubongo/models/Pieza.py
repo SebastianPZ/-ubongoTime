@@ -48,8 +48,8 @@ class Pieza(Componente):
                 else:
                     self.dibujoPieza.append(Cuadrado(
                         self.window, columna,
-                        self.x + j * 35, self.y + i * 35
-                    ))
+                        self.x + j * 35, self.y + i * 35,
+                    self.color))
                 j += 1
             j = 0
             i += 1

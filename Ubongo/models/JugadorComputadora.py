@@ -1,6 +1,7 @@
 import pygame
 from models.Jugador import Jugador
 import copy
+from models.utils.Cuadrado import Cuadrado
 
 contador = 0
 
@@ -129,7 +130,6 @@ class JugadorComputadora(Jugador):
         self.backtracking(piezasCombinadas, self.puzzleSeleccionado.forma, visitados)
 
         print("Salí al backtracking")
-        self.colocarPiezas()
 
     def backtracking(self, piezasCombinadas,puzzle, visitados):
 
@@ -138,7 +138,7 @@ class JugadorComputadora(Jugador):
         for j in range(len(piezasCombinadas)):
             #Si al menos una pieza no esta visitada, continuar con el loop
             if visitados[j] == 0:
-                print("VAMOOOOH MESSIIIII")
+                print("CARGANDO...")
                 break
         else:
             #si no hay ninguna pieza sin visitar o el puzzle está completo,
@@ -243,52 +243,25 @@ class JugadorComputadora(Jugador):
 
         return False
 
+    def colocarPiezas(self, window):
+
+        for f in range(len(self.puzzleSeleccionado.forma)):
+            for c in range(len(self.puzzleSeleccionado.forma[0])):
+                if self.solucion[f][c] == self.piezas[0].idPieza:
+                    self.puzzleSeleccionado.dibujoPuzzle[f][c] = Cuadrado(window, c,
+                                                                          self.puzzleSeleccionado.x + c*35,
+                                                                          self.puzzleSeleccionado.y + f*35, self.piezas[0].color)
+                elif self.solucion[f][c] == self.piezas[1].idPieza:
+                    self.puzzleSeleccionado.dibujoPuzzle[f][c] = Cuadrado(window, c,
+                                                                          self.puzzleSeleccionado.x + c*35,
+                                                                          self.puzzleSeleccionado.y + f*35, self.piezas[1].color)
+                elif self.solucion[f][c] == self.piezas[2].idPieza:
+                    self.puzzleSeleccionado.dibujoPuzzle[f][c] = Cuadrado(window, c,
+                                                                          self.puzzleSeleccionado.x + c*35,
+                                                                          self.puzzleSeleccionado.y + f*35, self.piezas[2].color)
+
+        for i in range(len(self.piezas)):
+            for j in range(len(self.piezas[i].dibujoPieza)):
+                self.piezas[i].dibujoPieza[j] = None
 
     
-    def colocarPiezas(self):
-        a = []
-        b = []
-        c = []
-        d = None
-
-        formasPiezas = [[] for i in range(3)]
-
-        for i in range(len(self.solucion)):
-            for j in range(len(self.solucion[0])):
-                if self.solucion[i][j] == self.piezas[0].idPieza:
-                    a.append(self.solucion[i][j])
-
-                elif self.solucion[i][j] == self.piezas[1].idPieza:
-                    b.append(self.solucion[i][j])
-                elif self.solucion[i][j] == self.piezas[2].idPieza:
-                    c.append(self.solucion[i][j])
-
-            if len(a) > 0:
-                formasPiezas[0].append(a)
-                a = []
-            if len(b) > 0:
-                formasPiezas[1].append(b)
-                b = []
-            if len(c) > 0:
-                formasPiezas[2].append(c)
-                c = []
-
-        for i in range(3):
-            self.piezas[i].forma = formasPiezas[i]
-            self.piezas[i].generarPieza()
-
-        piezasDibujadas = [False for _ in range(3)]
-        for i in range(len(self.solucion)):
-            for j in range(len(self.solucion[0])):
-                if not piezasDibujadas[0] and self.solucion[i][j] == self.piezas[0].idPieza:
-                    self.piezas[0].x = self.puzzleSeleccionado.dibujoPuzzle[i][j].x
-                    self.piezas[0].y = self.puzzleSeleccionado.dibujoPuzzle[i][j].y
-                    piezasDibujadas[0] = True
-                if not piezasDibujadas[1] and self.solucion[i][j] == self.piezas[1].idPieza:
-                    self.piezas[1].x = self.puzzleSeleccionado.dibujoPuzzle[i][j].x
-                    self.piezas[1].y = self.puzzleSeleccionado.dibujoPuzzle[i][j].y
-                    piezasDibujadas[1] = True
-                if not piezasDibujadas[2] and self.solucion[i][j] == self.piezas[2].idPieza:
-                    self.piezas[2].x = self.puzzleSeleccionado.dibujoPuzzle[i][j].x
-                    self.piezas[2].y = self.puzzleSeleccionado.dibujoPuzzle[i][j].y
-                    piezasDibujadas[2] = True

@@ -16,7 +16,7 @@ class Puzzle(Componente):
         self.piezas = recuperarPiezasDePuzzle(self.idPuzzle, self.dificultad)
         self.forma = recuperarPuzzlePorId(self.idPuzzle, self.dificultad)
         Componente.__init__(self, x, y, len(self.forma[0]) * 35, len(self.forma) * 35)
-        self.dibujoPuzzle = []
+        self.dibujoPuzzle = [[] for _ in range(len(self.forma))]
         self.generarPuzzle()
 
 
@@ -28,22 +28,23 @@ class Puzzle(Componente):
         for fila in self.forma:
             for columna in fila:
                 if columna == -2:
-                    self.dibujoPuzzle.append(None)
+                    self.dibujoPuzzle[i].append(None)
                 elif columna == -1:
                     self.cantEspaciosVacios += 1
-                    self.dibujoPuzzle.append(Cuadrado(
+                    self.dibujoPuzzle[i].append(Cuadrado(
                         self.window, columna,
-                        self.x + j*35, self.y + i*35
-                       ))
+                        self.x + j*35, self.y + i*35,
+                        (204, 207, 204)))
                 j += 1
             j = 0
             i += 1
 
 
     def dibujarPuzzle(self):
-        for cuadrado in self.dibujoPuzzle:
-            if cuadrado != None:
-                cuadrado.dibujarCuadrado('Puzzle')
+        for fila in self.dibujoPuzzle:
+            for cuadrado in fila:
+                if cuadrado != None:
+                    cuadrado.dibujarCuadrado('Puzzle')
 
 
     def colisionConPieza(self, pieza):
