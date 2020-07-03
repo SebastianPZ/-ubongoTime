@@ -6,7 +6,7 @@ mesa = pygame.image.load('assets/Fondos/fondo mesa.png')
 pygame.init()
 
 
-window = pygame.display.set_mode((1920, 1080))
+window = pygame.display.set_mode((1920,1080))
 #window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 pygame.display.set_caption("Prueba")

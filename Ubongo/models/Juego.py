@@ -182,7 +182,7 @@ class Juego():
     def dibujarJuego(self):
         if self.enRonda:
             self.tiempoAuxiliar += 1
-            if self.tiempoAuxiliar == 7:
+            if self.tiempoAuxiliar == 12:
                 self.tiempoAuxiliar = 0
                 self.pantallaJuego.barraJuego.temporizador.correrTiempo()
             if self.pantallaJuego.barraJuego.temporizador.segundos == 0:
@@ -243,6 +243,7 @@ class Juego():
         for i in range(self.numeroJugadores):
             self.jugadores[i].puzzleSeleccionado = copy.copy(self.jugadores[i].puzzles[self.numeroRonda - 1])
             self.jugadores[i]._puzzleSeleccionadoForma = copy.deepcopy(self.jugadores[i].puzzleSeleccionado.forma)
+            self.jugadores[i].movimientoFicha = False
 
         #       obtener las piezas de la cartilla segun el dado
         self.asignarPiezas()
