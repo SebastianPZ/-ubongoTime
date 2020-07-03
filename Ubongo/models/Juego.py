@@ -63,7 +63,7 @@ class Juego():
                 x += espaciado
             for _ in range(9):
                 if dificultad == "Normal":
-                   idPuzzle = random.randint(1,8)
+                   idPuzzle = 3#random.randint(1,8)
                 elif dificultad == "Difícil":
                    idPuzzle = random.randint(1,34)
                 puzzleGenerado = PuzzleFactory.crearPuzzle(x, y, idPuzzle, self.window, dificultad)
@@ -197,6 +197,9 @@ class Juego():
         self.dibujarPiezas()
         self.dibujarFichas()
 
+        # if self.pantallaJuego.barraJuego.temporizador.segundos == self.tiempoAleatorio\
+        #         and self.tiempoAuxiliar == 1:
+        #     self.jugadores[-1].resolverPuzzle()
 
 
     def tirarDado(self):
@@ -225,8 +228,7 @@ class Juego():
                 else:
                     self.jugadores[i].moverFicha(movimiento, self.limiteFilasPorJugadorEnRonda[i], self.pantallaJuego.tablero)
 
-            if self.pantallaJuego.barraJuego.temporizador.segundos == self.tiempoAleatorio:
-                self.jugadores[-1].resolverPuzzle()
+
 
 
 
@@ -244,7 +246,9 @@ class Juego():
 
         #       obtener las piezas de la cartilla segun el dado
         self.asignarPiezas()
-
+        self.jugadores[-1].resolverPuzzle()
+        print(self.jugadores[-1].puzzleSeleccionado.forma)
+        print(self.jugadores[-1].solucion)
 
         #       resolver (con tiempo)
         #       el que ya haya completado su puzzle, podrá mover su ficha X espacios
